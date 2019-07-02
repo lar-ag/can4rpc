@@ -17,16 +17,31 @@ pub trait Rpc {
     #[rpc(name = "write_index")]
     fn write_index(&self,node:u32,index:u16, sub: u8,data:Vec<u8>) -> Result<()>;
 
-    #[rpc(name = "get_ain")]
-    fn get_ain(&self, num: u8) -> Result<u16>;
-    #[rpc(name = "get_aout")]
-    fn get_aout(&self, num: u8) -> Result<u16>;
-    #[rpc(name = "set_aout")]
-    fn set_aout(&self, num: u8, val: u16) -> FutureResult<(),Error>;
-    #[rpc(name = "set_aout")]
-    fn get_temperatur(&self,num:u8) -> Result<u16>;
+    #[rpc(name = "analog_get_in01")]
+    fn analog_get_in01(&self) -> Result<u16>;
+    #[rpc(name = "analog_get_in02")]
+    fn analog_get_in02(&self) -> Result<u16>;
+    #[rpc(name = "analog_get_in03")]
+    fn analog_get_in03(&self) -> Result<u16>;
+    #[rpc(name = "analog_get_in04")]
+    fn analog_get_in04(&self) -> Result<u16>;
+    #[rpc(name = "analog_get_in05")]
+    fn analog_get_in05(&self) -> Result<u16>;
+    #[rpc(name = "analog_get_out")]
+    fn analog_get_out(&self) -> Result<u16>;
+    #[rpc(name = "analog_get_out")]
+    fn analog_set_out(&self,value: u16) -> Result<u16>;
+     #[rpc(name = "set_aout")]
+    fn analog_get_temp01(&self) -> Result<u16>;
 
-    #[rpc(name = "get_din")]
+
+
+
+    #[rpc(name = "get_aout")]
+    fn analogext_get_aout(&self, num: u8) -> Result<u16>;
+    #[rpc(name = "set_aout")]
+    fn analogext_set_aout(&self, num: u8, val: u16) -> FutureResult<(),Error>;
+      #[rpc(name = "get_din")]
     fn get_din(&self,digit:u8) ->Result<bool>;
     #[rpc(name = "get_dout")]
     fn get_dout(&self,digit:u8) ->Result<bool>;

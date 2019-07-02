@@ -1,12 +1,12 @@
 [package]
-name = "wqa-canbus"
+name = "wqm-can"
 version = "0.0.1"
 authors = ["smolkov <asmolkov@lar.com>"]
 edition = "2018"
-description = "Placeholder crate"
+description = "can4linux binding"
 keywords = ["wqa", "system","can", "information"]
-categories = ["asynchronous", "os"]
-repository = "https://github.com/lar-ag/wqa-core"
+categories = ["can" ]
+repository = "https://github.com/lar-ag/wqm-can"
 readme = "README.md"
 license = "Apache-2.0 OR MIT"
 build = "build.rs"

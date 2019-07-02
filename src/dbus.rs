@@ -148,7 +148,7 @@ impl CanBus for CanDBus {
     }
 
     fn set_uart01(&mut self, data: Vec<u8>) {
-        let r = self.message(Message::new_method_call( "com.lar.service.can", "/com/lar/nodes/Analog1", "com.lar.nodes.Analog1", "GetDigitalIn").unwrap().append1(String::from_utf8(data).unwrap()));
+        self.message(Message::new_method_call( "com.lar.service.can", "/com/lar/nodes/Analog1", "com.lar.nodes.Analog1", "GetDigitalIn").unwrap().append1(String::from_utf8(data).unwrap()));
     }
     fn set_uart02(&mut self, data: Vec<u8>) {
         self.message(Message::new_method_call( "com.lar.service.can", "/com/lar/nodes/Analog1", "com.lar.nodes.Analog1", "GetDigitalIn").unwrap().append1(String::from_utf8(data).unwrap()));

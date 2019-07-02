@@ -1,4 +1,6 @@
-# `canbus`
+# `wqa-can`
+
+Water quality analyzer can binding.
 
 🚧 _Work In Progress_ 🚧
 
