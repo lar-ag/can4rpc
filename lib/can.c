@@ -4,13 +4,13 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include "can4linux.h"
+#include "can.h"
+
 
 typedef struct Data{
     unsigned char buf[256];
     unsigned char len;
 }Data;
-
 
 int read_string(int fd,int node, canmsg_t *rx, Data *data) {
     unsigned char len = rx->data[4];
@@ -156,9 +156,37 @@ int can_msg (int fd, int node, int index, unsigned char sub, Data data)
     return 0;
 }
 
-int read_ain() {
+
+static int can_dev() {
+  static int fd = 0;
+  if(fd == 0) {
+    fd = open
+  }
+}
+
+
+unsigned read_value(int node, int index, unsigned char sub) {
+
     return 3;
 }
-// int main(int argc, char *argv[]) {
 
-// }//
+
+
+int main(int argc, char *argv[]) {
+
+  char str[80];
+  int i;
+
+  printf("Enter a string: ");
+  fgets(str, 10, stdin);
+
+  /* remove newline, if present */
+  i = strlen(str)-1;
+  if( str[ i ] == '\n')
+      str[i] = '\0';
+
+  printf("This is your string: %s", str);
+
+  return 0;
+
+}

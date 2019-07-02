@@ -3,9 +3,13 @@
 🚧 _Work In Progress_ 🚧
 
 **TODO:**  Driver?
-**TODO:**  API ?
 
+## Communication uber `jsonrpc`
 
+```shell
+cargo add jsonrpc-core
+cargo add jsonrpc-delive
+```
 
 ## 🚀 Deployment
 
