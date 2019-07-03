@@ -15,7 +15,7 @@ char*    analog_get_uart02(int node);
 Err      analog_set_baut02(int node,U32 baut);
 Err      analog_set_uart02(int node,char *data);
 U32      analog_get_in01  (int node);
-U32      analog_get_in02 (int node);
+U32      analog_get_in02  (int node);
 U32      analog_get_in03  (int node);
 U32      analog_get_in04  (int node);
 U32      analog_get_in05  (int node);

@@ -312,6 +312,7 @@ U32 analog_get_temp02(int node) {
 U32 analog_get_temp03(int node) {
   return 524;
 }
+
 char*    analog_get_uart01(int node){
   static Data buffer;
   buffer.len = 0;
@@ -338,4 +339,82 @@ Err analog_set_baut02(int node,unsigned baut){
 }
 Err analog_set_uart02(int node,char *data){
 
+}
+
+U32 digital_get_in(int node){
+
+}
+U32 digital_get_out(int node){
+
+}
+U32 digital_set_out(int node){
+
+}
+
+
+
+char*    motor_get_uart01(){
+  static Data buffer;
+  buffer.len = 0;
+  memset(buffer.buf,0,256);
+  return "test uart01";
+}
+char*    motor_get_uart02(){
+  static Data buffer;
+  buffer.len = 0;
+  memset(buffer.buf,0,256);
+  return "test uart01";
+}
+char*    motor_get_uart03(){
+  static Data buffer;
+  buffer.len = 0;
+  memset(buffer.buf,0,256);
+  return "test uart01";
+}
+char*    motor_get_uart04(){
+  static Data buffer;
+  buffer.len = 0;
+  memset(buffer.buf,0,256);
+  return "test uart01";
+}
+
+
+Err motor_set_baut01(unsigned baut){
+
+  return 0;
+}
+Err motor_set_baut02(unsigned baut){
+
+  return 0;
+}Err motor_set_baut03(unsigned baut){
+
+  return 0;
+}Err motor_set_baut04(unsigned baut){
+
+  return 0;
+}
+
+Err motor_set_uart01(char *data){
+
+  return 0;
+}
+Err motor_set_uart02(char *data){
+
+  return 0;
+}
+Err motor_set_uart03(char *data){
+
+  return 0;
+}
+Err motor_set_uart04(char *data){
+
+  return 0;
+}
+
+// Analog out
+U32 analogext_get_out(U8 out) {
+  return 87;
+}
+Err analogext_set_out(U8 out ,U32 value){
+  return 0;
 }

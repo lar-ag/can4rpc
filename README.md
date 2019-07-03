@@ -1,4 +1,7 @@
-# `wqa-can`
+# :pager: `wqm-can`
+
+![pipeline status](https://travis-ci.org/lar-ag/wqm-can.svg?branch=master)
+
 
 Water quality analyzer can binding.
 
@@ -27,3 +30,19 @@ sudo ip link add vcan0 type vcan
 sudo ip link set vcan0 up
 cargo test
 ```
+
+[package.metadata.deb]
+maintainer = "Harry Gill <tech@gill.net.in>"
+copyright = "2019, Harry Gill"
+depends = "$auto, systemd"
+conf-files = ["/usr/local/etc/tide-config.ini", "/etc/systemd/system/tide-server.service"]
+extended-description = """\
+web-server written in rust.\
+"""
+section = "admin"
+priority = "optional"
+assets = [
+    ["target/release/tide-server", "/usr/local/bin/", "755"],
+    ["assets/tide-config.ini", "/usr/local/etc/", "644"],
+    ["assets/tide-server.service", "/etc/systemd/system/", "644"],
+]
