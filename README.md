@@ -8,6 +8,34 @@ Water quality analyzer can binding.
 🚧 _Work In Progress_ 🚧
 
 **TODO:**  Driver?
+
+##  Compiling
+
+Requires Rust nightly. To compile using [`rustup`](https://rustup.rs/):
+
+```ShellSession
+$ rustup toolchain install nightly
+$ rustup default nightly
+$ cargo build
+```
+
+Be sure to switch back to `stable` with `rustup default stable` if that's your preferred toolchain.
+
+
+To cross-compile for the Raspberry Pi you will need an
+`gcc-multilib-i686-linux-gnu` GCC toolchain and Rust component installed. Add the Rust target
+with `rustup target add i686-unknown-linux-gnu`. Then you can
+cross-compile with `cargo`:
+
+```ShellSession
+    cargo build --release --target i686-unknown-linux-gnu
+```
+
+`target/i686-unknown-linux-gnu/release/wqm-uv` 
+
+
+[ui]: https://user-images.githubusercontent.com/383250/59148363-53188c80-8a08-11e9-9b29-9cac56809ee2.png "Automaat UI Example"
+
 
 ## Communication uber `jsonrpc`
 

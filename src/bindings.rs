@@ -21,7 +21,7 @@ extern "C" {
     ) -> Err;
 }
 extern "C" {
-    pub fn analog_get_uart01(node: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+    pub fn analog_get_uart01(node: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn analog_set_baut01(node: ::std::os::raw::c_int, baut: U32) -> Err;
@@ -31,7 +31,7 @@ extern "C" {
         -> Err;
 }
 extern "C" {
-    pub fn analog_get_uart02(node: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+    pub fn analog_get_uart02(node: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn analog_set_baut02(node: ::std::os::raw::c_int, baut: U32) -> Err;

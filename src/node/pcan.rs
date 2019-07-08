@@ -86,18 +86,8 @@ impl PCan {
         };
         Ok(can)
     }
-    // pub fn telegramm(&self,telegram: &mut Telegram)-> Result<(),MioError> {
-        // let mut handle = self.innen.lock().unwrap();
-        // telegram.processing(Pin::new(&mut handle))?;
-        // Ok(())
-    // }
-    // pub fn read(node : u32, index: u16, sub : u8) -> Result<Vec<u8>,MioError> {
-        // Ok(Vec::new());
-    // }
-    // pub fn write(node : u32, index : u16, sub : u8 , data : Vec<u8>) -> Result<(),MioError> {
-        // Ok()
-    // }
 }
+
 /// A TMCM module will respond with a `Reply` after receiving a `Command`.
 #[derive(Debug)]
 pub struct Message {

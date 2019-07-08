@@ -7,7 +7,7 @@ use dbus::{BusType, Connection, Message};
 // use std::num::ParseIntError;
 // use std::str::FromStr;
 use futures::prelude::*;
-use super::mio::CanBus;
+// use super::mio::CanBus;
 
 use std::{
     sync::{Arc,Mutex},
@@ -55,7 +55,7 @@ impl CanDBus {
 // 			<arg direction="in" type="s" name="value"/>
 // 			<arg direction="out" type="b" name="is_done"/>
 // 		</method>
-impl CanBus for CanDBus {
+impl CanDBus {
    fn get_ain01(&mut self) -> u16 {
         let r = self.message(Message::new_method_call( "com.lar.service.can", "/com/lar/nodes/Analog1", "com.lar.nodes.Analog1", "GetIn1").unwrap());
         r.get1().unwrap()

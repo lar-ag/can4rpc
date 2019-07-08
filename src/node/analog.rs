@@ -12,23 +12,11 @@ lazy_static! {
 
 }
 // use super::can0::CAN;
-use super::can::{
-    Message,
- };
+// use super::can::{
+    // Message,
+//  };
 
 use super::error::CanError;
-
-// #[derive(Debug, Clone, Serialize, Deserialize)]
-// pub struct AnalogState {
-//     pub node:   u32,
-//     /// AnalogIn 6111
-//     pub input:  [u16;5],
-//     /// AnalogOut 6120:1
-//     pub output:  u16,
-//     pub uart01: Vec<u8>,
-//     pub uart02: Vec<u8>,
-//     pub temperatur: [u16;3],
-// }
 
 pub type AInput16 = u16;
 /// AnalogNode
@@ -92,99 +80,55 @@ impl AnalogNode {
             temp03: 774,
          }
     }
-    /// Status
     pub fn state(&mut self) -> AnalogNode {
         self.clone()
     }
-    /// Read analog IN01
-
 }
 
 
 
-// pub trait AnalogOutput: MsgRx + MsgTx{
-//     fn read(&mut self) -> nb::Result<u16,CanError>
-//     {
-//         let tx = Message::read_message(self.rxmsg())?;
-//         let rx =  can0::read_message(tx)?;
-//         Ok(rx.to_u16())
-//     }
+pub async fn info() -> String {
+    "Analog info"
+}
 
-//     fn write(&mut self) -> nb::Result<_,CanError> {
-//         let tx = Message::read_message(self.rxmsg())?;
-//         let _ =  can0::read_message(tx)?;
-//         Ok(())
-//     }
-// }
+pub async fn get_input01(node:AnalogNode) -> u16{
+    2000
+}
+pub async fn get_input02(node:AnalogNode) -> u16{
+    2000
+}
+pub async fn get_input03(node:AnalogNode) -> u16{
+    2000
+}
+pub async fn get_input04(node:AnalogNode) -> u16{
+    2000
+}
+pub async fn get_input05(node:AnalogNode) -> u16{
+    2000
+}
+pub async fn get_out(node:AnalogNode) -> u16 {
+    1500
+} 
+pub async fn get_uart01(node:AnalogNode) -> Vec<u8> {
+    Vec::new()
+}
+pub async fn set_uart01(node:AnalogNode,data:Vec<u8>) -> Vec<u8> {
+    node.uart01 = data.clone()
+}
+pub async fn setup_uart01(node:AnalogNode,bautrate:u8) {
+    node.bautrate = bautrate;
+}
 
-
-// pub trait Temperature: MsgRx {
-//     fn celsius(&mut self) -> nb::Result<f32,std::io::Error> {
-//         let tx = Message::read_message(self.rxmsg())?;
-//         let rx =  can0::read_message(tx)?;
-//         (rx.to_u16() as f32) / 10.0
-//     }
-// }
-// pub trait Uart: MsgRx + MsgTx {
-//     fn read(&mut self) -> nb::Result<Vec<u8>,std::io::Error>  {
-//         let tx = Message::read_message(self.rxmsg())?;
-//         let rx =  can0::read_message(tx)?;
-//         Ok(rx.get_data())
-//     }
-//     fn write(&mut self) -> nb::Result<_,std::io::Error> {
-//         let tx = Message::read_message(self.rxmsg())?;
-//         let _ =  can0::read_message(tx)?;
-//         Ok(())
-//     }
-// }
-
-
-
-// impl MsgRx for A1IN1 {
-//     fn rxmsg(&self) -> Message {
-//         Message::new_message(self.node,0x6101,0x1,Vec::new())
-//     }
-// }
-// impl AnalogInput for A1IN1 { }
-
-// impl MsgRx for A1IN2 {
-//      fn rxmsg(&self) -> Message {
-//         Message::new_message(NODE,0x6101,0x2,Vec::new())
-//     }
-// }
-// impl AnalogInput for A1IN2 { }
-
-// impl MsgRx for A1IN3 {
-//     fn rxmsg(&self) -> Message {
-//         Message::new_message(NODE,0x6101,0x3,Vec::new())
-//     }
-// }
-// impl AnalogInput for A1IN3 { }
-
-// impl MsgRx for A1IN4 {
-//     fn rxmsg(&self) -> Message {
-//         Message::new_message(NODE,0x6101,0x4,Vec::new())
-//     }
-// }
-// impl AnalogInput for A1IN4 { }
-
-// impl MsgRx for A1IN5 {
-//     fn rxmsg(&self) -> Message {
-//         Message::new_message(NODE,0x6111,0x1,Vec::new())
-//     }
-// }
-// impl AnalogInput for A1IN5 { }
+pub async fn get_uart02(node:AnalogNode) -> Vec<u8> {
+    Vec::new()
+}
+pub async fn set_uart02(node:AnalogNode,data:Vec<u8>) -> Vec<u8> {
+    node.uart02 = data.clone()
+}
+pub async fn setup_uart02(node:AnalogNode,bautrate:u8) {
+    node.bautrate = bautrate;
+}
 
 
-// impl MsgRx for A1OUT {
-//     fn rxmsg(&self) -> Message {
-//         Message::new_message(NODE,0x6120,0x4,Vec::new())
-//     }
-// }
-// impl MsgTx for A1OUT {
-//      fn txmsg(&self) -> Message {
-//         Message::new_message(NODE,0x6120,0x4,Vec::new())
-//     }
-// }
 
 
