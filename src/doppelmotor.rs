@@ -1,8 +1,9 @@
-use futures::prelude::*;
+// use futures::prelude::*;
 use serde_derive::{Deserialize,Serialize};
-use std::os::raw::*;
-use tide::{error::ResultExt, Context, EndpointResult};
-
+// use std::os::raw::*;
+use super::can;
+// use tide::{error::ResultExt, Context, EndpointResult};
+//
 /// Motor oder Doppelmotor
 /// 6X00:1 ParameterName=Stepper=0, Ruhrer =1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
 /// 6X00:2 ParameterName=Endschalter, geschlossen=1 ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=0 PDOMapping=0
@@ -277,66 +278,51 @@ impl DoppelmotorNode {
     }
 }
 
-extern {
-    fn doppelmotor_get_uart01(node:c_int) -> *mut c_uchar;
-    fn doppelmotor_set_baut01(node:c_int,val:c_uint)->c_int;
-    fn doppelmotor_set_uart01(node:c_int,data: *mut c_uchar) -> c_int;
-    fn doppelmotor_get_uart02(node:c_int) -> *mut c_uchar;
-    fn doppelmotor_set_uart02(node:c_int,data: *mut c_uchar) -> c_int;
-    fn doppelmotor_set_baut02(node:c_int,val:c_uint)->c_uint;
+pub fn get_uart01(node:i32) -> Vec<u8> {
+    unsafe{
+        let data = can::doppelmotor_get_uart01(node);
+        let len:usize = data.len as usize;
+        let mut vec = data.buf.to_vec();
+        vec.truncate(len);
+    //    Vec::from_raw_parts(&buf.buf,buf.len as usize,256)
+        vec
+    //   let _t = can::doppelmotor_get_uart02(node);
+    }
 }
 
-
-pub async fn get_uart01(cx: Context<()>) -> EndpointResult<Vec<u8>> {
-    let node:i32 = cx.param("id").client_err()?;
-    let uart:Vec<u8> = Vec::new();
+pub fn set_uart01(node:i32,mut value:Vec<u8>)  {
     unsafe{
-      let t = doppelmotor_get_uart01(node);
+        can::doppelmotor_set_uart01(node,value.as_mut_ptr());
     }
-    Ok(uart.clone())
 }
 
-pub async fn set_uart01(mut cx: Context<()>)  -> EndpointResult<()>  {
-    let node:i32 = cx.param("id").client_err()?;
-    let mut value:Vec<u8> = cx.body_json().await.client_err()?;
+pub fn setup_uart01(node:i32,baut:u32){
     unsafe{
-        doppelmotor_set_uart01(node,value.as_mut_ptr());
+        can::doppelmotor_set_baut01(node,baut);
     }
-    Ok(())
 }
 
-pub async fn setup_uart01(mut cx: Context<()>) -> EndpointResult<()> {
-    let node:i32 = cx.param("id").client_err()?;
-    let baut:u32 = cx.body_json().await.client_err()?;
+pub fn get_uart02(node:i32) -> Vec<u8> {
     unsafe{
-      doppelmotor_set_baut01(node,baut);
+        let data = can::doppelmotor_get_uart02(node);
+        let len:usize = data.len as usize;
+        let mut vec = data.buf.to_vec();
+        vec.truncate(len);
+    //    Vec::from_raw_parts(&buf.buf,buf.len as usize,256)
+        vec
+    //   let _t = can::doppelmotor_get_uart02(node);
     }
-    Ok(())
+    // vec![0 as u8]
 }
 
-pub async fn get_uart02(cx: Context<()>) -> EndpointResult<Vec<u8>> {
-    let node:i32 = cx.param("id").client_err()?;
-    let uart:Vec<u8> = Vec::new();
+pub fn set_uart02(node:i32,mut value: Vec<u8>) {
     unsafe{
-      let t = doppelmotor_get_uart02(node);
+        can::doppelmotor_set_uart02(node,value.as_mut_ptr());
     }
-    Ok(uart.clone())
 }
 
-pub async fn set_uart02(mut cx: Context<()>)  -> EndpointResult<()>  {
-    let node:i32 = cx.param("id").client_err()?;
-    let mut value:Vec<u8> = cx.body_json().await.client_err()?;
+pub fn set_baut02(node:i32, baut: u32)  {
     unsafe{
-        doppelmotor_set_uart02(node,value.as_mut_ptr());
+      can::doppelmotor_set_baut02(node,baut);
     }
-    Ok(())
-}
-
-pub async fn setup_uart02(mut cx: Context<()>) -> EndpointResult<()> {
-    let node:i32 = cx.param("id").client_err()?;
-    let baut:u32 = cx.body_json().await.client_err()?;
-    unsafe{
-      doppelmotor_set_baut02(node,baut);
-    }
-    Ok(())
 }

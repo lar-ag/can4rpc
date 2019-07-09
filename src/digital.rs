@@ -1,9 +1,7 @@
-#![feature(async_await)]
 use std::os::raw::*;
 use serde_derive::{Deserialize,Serialize};
-use tide::{error::ResultExt, response, App, Context, EndpointResult};
-use http::status::StatusCode;
-
+// use tide::{error::ResultExt, response, App, Context, EndpointResult};
+use super::bindings as can;
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -19,50 +17,30 @@ pub struct DigitalNode {
 }
 
 
-extern {
-  fn digital_read_unsigned  ( node: c_int, index: c_int, sub: c_uchar)->c_uint;
-  fn digital_write_unsigned ( node: c_int, index: c_int, sub: c_uchar, type_: c_uchar, value: c_uint);
-  fn digital_get_input      ( node:c_int) -> c_uint;
-  fn digital_get_output     ( node:c_int) -> c_uint;
-  fn digital_set_output     ( node:c_int,value: c_uint);
-}
-
-
-
-pub struct Can;
-
-
-
 use std::fmt::Write;
 
 
 
 
-pub async fn info(cx: Context<()>) -> EndpointResult<String> {
-    let node:i32 = cx.param("id").client_err()?;
+pub fn info(node : i32) -> String {
     let mut info = String::new();
     write!(&mut info, "Digital:{}",node).unwrap(); // uses fmt::Write::write_fmt
-    Ok(info)
+    info
 }
-pub async fn get_input(cx: Context<()>) -> EndpointResult {
-    let node:i32 = cx.param("id").client_err()?;
+pub fn get_input(node:i32) -> u16 {
     unsafe{
-         Ok(response::json(digital_get_input(node)))
+        can::digital_get_input(node) as u16
     }
 }
-pub async fn get_output(cx: Context<()>) -> EndpointResult {
-    let node:i32 = cx.param("id").client_err()?;
+pub fn get_output(node:i32) -> u16 {
     unsafe{
-       Ok(response::json(digital_get_output(node)))
+        can::digital_get_output(node) as u16
     }
 }
-pub async fn set_output(mut cx: Context<()>) -> EndpointResult<()>  {
-    let node:i32 = cx.param("id").client_err()?;
-    let value:u32 = cx.body_json().await.client_err()?;
+pub fn set_output(node:i32, value: u16) {
     unsafe{
-        digital_set_output(node,value);
+        can::digital_set_output(node,value as u32);
     }
-    Ok(())
 }
 
 #[cfg(test)]
@@ -71,7 +49,7 @@ mod tests {
 
     fn digital_node_test(node:i32) {
        unsafe{
-          let din:u32 = digital_get_input(node);
+          let din = get_input(node);
           println!("DIGITAL-IN:{:}",din);
           assert_eq!(din,0);
       }

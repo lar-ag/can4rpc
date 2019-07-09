@@ -1,186 +1,149 @@
-use std::os::raw::*;
 use std::fmt::Write;
+use std::ptr;
 
-use lazy_static::lazy_static;
+// use lazy_static::lazy_static;
 
-use tide::{error::ResultExt, response, App, Context, EndpointResult};
-use http::status::StatusCode;
+// use tide::{error::ResultExt, response, App, Context, EndpointResult};
+// use http::status::StatusCode;
+// use super::MioError;
+use super::can;
 
-lazy_static! {
+// lazy_static! {
 
-}
-// use super::can0::CAN;
-// use super::can::{
-    // Message,
-//  };
-
+// }
 
 
-
-
-
-extern {
-  // fn read_unsigned    (node: c_int, index: c_int, sub: c_uchar)->c_uint;
-  // fn write_unsigned   (node: c_int, index: c_int, sub: c_uchar, type_: c_uchar, value: c_uint);
-  fn analog_get_uart01(node:c_int) -> *mut c_uchar;
-  fn analog_get_uart02(node:c_int) -> *mut c_uchar;
-  fn analog_set_uart02(node:c_int,data: *mut c_uchar) -> c_int;
-  fn analog_set_uart01(node:c_int,data: *mut c_uchar) -> c_int;
-
-  fn analog_set_baut01(node:c_int,val:c_uint)->c_int;
-  fn analog_set_baut02(node:c_int,val:c_uint)->c_uint;
-  fn analog_get_in01  (node:c_int) -> c_uint;
-  fn analog_get_in02  (node:c_int) -> c_uint;
-  fn analog_get_in03  (node:c_int) -> c_uint;
-  fn analog_get_in04  (node:c_int) -> c_uint;
-  fn analog_get_in05  (node:c_int) -> c_uint;
-  fn analog_get_out   (node:c_int) -> c_uint;
-  fn analog_set_out   (node:c_int,val:c_uint)->c_int;
-  fn analog_get_temp01(node:c_int) -> c_uint;
-  fn analog_get_temp02(node:c_int) -> c_uint;
-  fn analog_get_temp03(node:c_int) -> c_uint;
-}
-
-
-
-
-
-
-
-pub async fn info(cx: Context<()>) -> EndpointResult<String> {
-     let node:i32 = cx.param("id").client_err()?;
+pub fn info(node:i32) -> String {
     let mut info = String::new();
-    write!(&mut info, "Digital:{}",node).unwrap(); // uses fmt::Write::write_fmt
-    Ok(info)
+    write!(&mut info, "Analog node {}",node).unwrap(); // uses fmt::Write::write_fmt
+    info
+}
 
-}
-// GET /analog/:node/in01
-pub async fn get_input01(cx: Context<()>) -> EndpointResult{
-    let node:i32 = cx.param("id").client_err()?;
+pub fn get_input01(node : i32) -> u16{
     unsafe{
-      Ok(response::json(analog_get_in01(node)))
+        can::analog_get_in01(node) as u16
     }
 }
-pub async fn get_input02(cx: Context<()>) -> EndpointResult{
-    let node:i32 = cx.param("id").client_err()?;
+
+pub fn get_input02(node:i32) -> u16 {
     unsafe{
-      Ok(response::json(analog_get_in02(node)))
+        can::analog_get_in02(node) as u16
     }
 }
-pub async fn get_input03(cx: Context<()>) -> EndpointResult{
-    let node:i32 = cx.param("id").client_err()?;
+
+pub fn get_input03(node:i32) -> u16{
     unsafe{
-      Ok(response::json(analog_get_in03(node)))
+        can::analog_get_in03(node) as u16
     }
 }
-pub async fn get_input04(cx: Context<()>) -> EndpointResult{
-    let node:i32 = cx.param("id").client_err()?;
+
+pub fn get_input04(node :i32) -> u16{
     unsafe{
-        Ok(response::json(analog_get_in04(node)))
+        can::analog_get_in04(node) as u16
     }
 }
-pub async fn get_input05(cx: Context<()>) -> EndpointResult{
-    let node:i32 = cx.param("id").client_err()?;
+
+pub fn get_input05(node:i32) -> u16{
     unsafe{
-      Ok(response::json(analog_get_in05(node)))
+        can::analog_get_in05(node) as u16
     }
 }
-pub async fn get_out(cx: Context<()>) -> EndpointResult{
-    let node:i32 = cx.param("id").client_err()?;
+pub fn get_out(node:i32) -> u16{
     unsafe{
-        Ok(response::json(analog_get_out(node)))
+        can::analog_get_out(node) as u16
     }
 }
-pub async fn set_out(mut cx: Context<()>) -> EndpointResult<()> {
-    let node:i32 =  cx.param("id").client_err()?;
-    let value:u32 = cx.body_json().await.client_err()?;
+pub fn set_out(node:i32,value:u16)  {
     unsafe{
-        analog_set_out(node,value);
-    }
-    Ok(())
-}
-pub async fn get_temp01(cx: Context<()>) -> EndpointResult {
-    let node:i32 = cx.param("id").client_err()?;
-    unsafe{
-       Ok(response::json(analog_get_temp01(node)))
+        can::analog_set_out(node,value as u32);
     }
 }
-pub async fn get_temp02(cx: Context<()>) -> EndpointResult {
-    let node:i32 = cx.param("id").client_err()?;
+pub fn get_temp01(node:i32) -> u16 {
     unsafe{
-      Ok(response::json(analog_get_temp02(node)))
+       can::analog_get_temp01(node)as u16
     }
 }
-pub async fn get_temp03(cx: Context<()>) -> EndpointResult {
-    let node:i32 = cx.param("id").client_err()?;
+pub fn get_temp02(node:i32) -> u16 {
     unsafe{
-      Ok(response::json(analog_get_temp03(node)))
+      can::analog_get_temp02(node) as u16
     }
 }
-pub async fn get_uart01(cx: Context<()>) -> EndpointResult {
-    let node:i32 = cx.param("id").client_err()?;
-    let uart:Vec<u8> = Vec::new();
+pub fn get_temp03(node:i32) -> u16 {
     unsafe{
-      let t = analog_get_uart01(node);
+      can::analog_get_temp03(node) as u16
+    }
+}
+
+
+pub fn get_uart01(node:i32) -> Vec<u8>{
+    // let data:
+    unsafe{
+        let data = can::analog_get_uart01(node);
+        let len:usize = data.len as usize;
+        let mut vec = data.buf.to_vec();
+        vec.truncate(len);
+    //    Vec::from_raw_parts(&buf.buf,buf.len as usize,256)
+        vec
+
     }
     // uart.from(analog_get_uart01(node));
-    Ok(response::json(uart.clone()))
 }
-pub async fn set_uart01(mut cx: Context<()>)  -> EndpointResult<()>  {
-    let node:i32 = cx.param("id").client_err()?;
-    let mut value:Vec<u8> = cx.body_json().await.client_err()?;
+pub fn set_uart01(node:i32,mut value: Vec<u8>)    {
     unsafe{
-        analog_set_uart01(node,value.as_mut_ptr());
+        can::analog_set_uart01(node,value.as_mut_ptr());
     }
-    Ok(())
 }
-pub async fn setup_uart01(mut cx: Context<()>) -> EndpointResult<()> {
-    let node:i32 = cx.param("id").client_err()?;
-    let baut:u32 = cx.body_json().await.client_err()?;
+pub fn set_bautrate01(node:i32,baut:u32)   {
     unsafe{
-      analog_set_baut01(node,baut);
+      can::analog_set_baut01(node,baut);
     }
-    Ok(())
 }
-pub async fn get_uart02(cx: Context<()>) -> EndpointResult {
-    let node:i32 = cx.param("id").client_err()?;
-    let uart:Vec<u8> = Vec::new();
+pub fn get_uart02(node:i32) -> Vec<u8> {
     unsafe{
-      let t = analog_get_uart02(node);
+        let data = can::analog_get_uart01(node);
+        let len:usize = data.len as usize;
+        let mut vec = data.buf.to_vec();
+        vec.truncate(len);
+    //    Vec::from_raw_parts(&buf.buf,buf.len as usize,256)
+        vec
     }
-    Ok(response::json(uart.clone()))
 }
-pub async fn set_uart02(mut cx: Context<()>) -> EndpointResult<()> {
-    let node:i32 = cx.param("id").client_err()?;
-    let mut value:Vec<u8> = cx.body_json().await.client_err()?;
+pub fn set_uart02(node:i32,mut value: Vec<u8>)    {
     unsafe{
-      analog_set_uart02(node,value.as_mut_ptr());
+      can::analog_set_uart02(node,value.as_mut_ptr());
     }
-    Ok(())
 }
-pub async fn setup_uart02(mut cx: Context<()>) -> EndpointResult<()>  {
-    let node:i32 = cx.param("id").client_err()?;
-    let baut:u32 = cx.body_json().await.client_err()?;
+pub fn set_bautrate02(node:i32, baut: u32)  {
     unsafe{
-      analog_set_baut02(node,baut);
+     can::analog_set_baut02(node,baut);
     }
-    Ok(())
 }
-
-
+pub fn get_ext_count()-> u8 {
+    unsafe{
+        can::analogext_get_count() as u8
+    }
+}
+pub fn get_ext_output(num:u8)-> u16 {
+    unsafe{
+        can::analogext_get_out(num) as u16
+    }
+}
+pub fn set_ext_output(num:u8,value:u16) {
+    unsafe{
+        can::analogext_set_out(num,value as u32);
+    }
+}
 
 
 
 #[cfg(test)]
 mod tests {
+    #![feature(async_await)]
     use super::*;
-    use std::os::raw::*;
     #[test]
-    fn canc_test() {
-      unsafe{
-        let in01:u32 = analog_get_in01(2);
-        println!("ANALOG IN01:{:}",in01);
-        assert_eq!(in01,887);
-      }
+    fn analogasync_test() {
+
+        // println!("ANALOG IN01:{:}",in01);
+        // assert_eq!(in01,887);
     }
 }

@@ -4,6 +4,35 @@ pub type U32 = ::std::os::raw::c_uint;
 pub type U8 = ::std::os::raw::c_uchar;
 pub type Err = ::std::os::raw::c_int;
 pub type TYPE = ::std::os::raw::c_uchar;
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct Data {
+    pub buf: [U8; 256usize],
+    pub len: ::std::os::raw::c_uchar,
+}
+#[test]
+fn bindgen_test_layout_Data() {
+    assert_eq!(
+        ::std::mem::size_of::<Data>(),
+        257usize,
+        concat!("Size of: ", stringify!(Data))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<Data>(),
+        1usize,
+        concat!("Alignment of ", stringify!(Data))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<Data>())).buf as *const _ as usize },
+        0usize,
+        concat!("Offset of field: ", stringify!(Data), "::", stringify!(buf))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<Data>())).len as *const _ as usize },
+        256usize,
+        concat!("Offset of field: ", stringify!(Data), "::", stringify!(len))
+    );
+}
 extern "C" {
     pub fn close_can0() -> Err;
 }
@@ -21,26 +50,18 @@ extern "C" {
     ) -> Err;
 }
 extern "C" {
-    pub fn analog_get_uart01(node: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
+    pub fn read_long(node: ::std::os::raw::c_int, index: ::std::os::raw::c_int, sub: U8) -> Data;
 }
 extern "C" {
-    pub fn analog_set_baut01(node: ::std::os::raw::c_int, baut: U32) -> Err;
+    pub fn write_long(
+        node: ::std::os::raw::c_int,
+        indec: ::std::os::raw::c_int,
+        sub: U8,
+        data: *mut U8,
+    ) -> Err;
 }
 extern "C" {
-    pub fn analog_set_uart01(node: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_char)
-        -> Err;
-}
-extern "C" {
-    pub fn analog_get_uart02(node: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn analog_set_baut02(node: ::std::os::raw::c_int, baut: U32) -> Err;
-}
-extern "C" {
-    pub fn analog_set_uart02(node: ::std::os::raw::c_int, data: *mut ::std::os::raw::c_char)
-        -> Err;
-}
-extern "C" {
+    #[doc = " Analog node interface"]
     pub fn analog_get_in01(node: ::std::os::raw::c_int) -> U32;
 }
 extern "C" {
@@ -69,4 +90,88 @@ extern "C" {
 }
 extern "C" {
     pub fn analog_get_temp03(node: ::std::os::raw::c_int) -> U32;
+}
+extern "C" {
+    pub fn analog_get_uart01(node: ::std::os::raw::c_int) -> Data;
+}
+extern "C" {
+    pub fn analog_set_baut01(node: ::std::os::raw::c_int, baut: U32) -> Err;
+}
+extern "C" {
+    pub fn analog_set_uart01(node: ::std::os::raw::c_int, data: *mut U8) -> Err;
+}
+extern "C" {
+    pub fn analog_get_uart02(node: ::std::os::raw::c_int) -> Data;
+}
+extern "C" {
+    pub fn analog_set_baut02(node: ::std::os::raw::c_int, baut: U32) -> Err;
+}
+extern "C" {
+    pub fn analog_set_uart02(node: ::std::os::raw::c_int, data: *mut U8) -> Err;
+}
+extern "C" {
+    #[doc = " Digital node"]
+    #[doc = " Nodes: [Digital1:0x18,Digital2:0x19,Digital3:0x1a]"]
+    #[doc = " Input 16bit min 0x0000 max 0xffff:0b1111_1111_1111_1111"]
+    pub fn digital_get_input(node: ::std::os::raw::c_int) -> U32;
+}
+extern "C" {
+    #[doc = " Output 16bib"]
+    pub fn digital_get_output(node: ::std::os::raw::c_int) -> U32;
+}
+extern "C" {
+    #[doc = " Change output 16bit"]
+    pub fn digital_set_output(node: ::std::os::raw::c_int, value: U32) -> Err;
+}
+extern "C" {
+    #[doc = " Doppelmotor node interfaces."]
+    #[doc = " Nodes ID [Doppelmotor1:0x12,Doppelmotor2:0x14]"]
+    #[doc = ""]
+    #[doc = " Read UartData01"]
+    #[doc = " Index: 0x6000,0x1"]
+    pub fn doppelmotor_get_uart01(node: ::std::os::raw::c_int) -> Data;
+}
+extern "C" {
+    #[doc = " Read UartData02"]
+    #[doc = " Address: 0x6010,0x1"]
+    pub fn doppelmotor_get_uart02(node: ::std::os::raw::c_int) -> Data;
+}
+extern "C" {
+    #[doc = " Change bautrate for UartData01"]
+    #[doc = " Address: 0x6000,0x4"]
+    #[doc = " Value:"]
+    pub fn doppelmotor_set_baut01(node: ::std::os::raw::c_int, baut: ::std::os::raw::c_uint)
+        -> Err;
+}
+extern "C" {
+    #[doc = " Change bautrate for UartData02"]
+    #[doc = " Address: 0x6010,0x4"]
+    #[doc = " Value: 9 = 9600"]
+    pub fn doppelmotor_set_baut02(node: ::std::os::raw::c_int, baut: ::std::os::raw::c_uint)
+        -> Err;
+}
+extern "C" {
+    pub fn doppelmotor_set_uart01(node: ::std::os::raw::c_int, data: *mut U8) -> Err;
+}
+extern "C" {
+    pub fn doppelmotor_set_uart02(node: ::std::os::raw::c_int, data: *mut U8) -> Err;
+}
+extern "C" {
+    #[doc = " Analog extension modul"]
+    #[doc = " NodeID: Analogext:0x1C"]
+    #[doc = ""]
+    #[doc = " count real analog outputs bounds on extension modul"]
+    pub fn analogext_get_count() -> U8;
+}
+extern "C" {
+    #[doc = " Read analog out value u16 from modul number"]
+    #[doc = " out range [1..max]"]
+    #[doc = " max - read with `analogext_get_count` function."]
+    pub fn analogext_get_out(out: U8) -> U32;
+}
+extern "C" {
+    #[doc = " Change real analog output value on modul."]
+    #[doc = " out range [1..max]"]
+    #[doc = " max - read with `analogext_get_count` function."]
+    pub fn analogext_set_out(out: U8, value: U32) -> Err;
 }

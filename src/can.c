@@ -8,10 +8,7 @@
 #include "can.h"
 
 
-typedef struct Data{
-    unsigned char buf[256];
-    unsigned char len;
-}Data;
+
 
 ///  Typed:
 ///     0x001 - bool
@@ -118,7 +115,7 @@ static Err set_value(canmsg_t *rx, Data *data) {
 }
 
 // cmd = 0x20|19-(len<<2)
-static Err can_msg (int fd, int node, int index, unsigned char sub, Data *data)
+Err can_msg (int fd, int node, int index, unsigned char sub, Data *data)
 {
   static Data buffer;
   if(data == NULL) {
@@ -217,9 +214,9 @@ static U32 read_u32(int fd, int node,int index,U8 sub) {
     msg.data[1] = (unsigned char) (index & 0xff);
     msg.data[2] = (unsigned char)(index >> 8);
     msg.data[3] = (unsigned char) sub;
-    if(write(can0(), &msg, 1))return 3;
+    if(write(fd, &msg, 1))return 3;
     canmsg_t rx;
-    if(read(can0(), &rx, 1)) return 2;
+    if(read(fd, &rx, 1)) return 2;
     return value_u32(&rx);
 }
 
@@ -248,7 +245,7 @@ U32 read_unsigned(int node,int index,unsigned char sub) {
 Err write_unsigned(int node,int index,U8 sub,U8 len,U32 value) {
     return write_u32(can0(),node,index,sub,len,value);
 }
-static char* read_uart(int fd, int node,int index,U8 sub,Data *buffer){
+static U8* read_uart(int fd, int node,int index,U8 sub,Data *buffer){
     if (buffer == NULL) {
         static Data local;
         local.len =0;
@@ -294,7 +291,21 @@ static Err write_uart(int fd,int node,int index,U8 sub,Data *buffer) {
     return 0;
 }
 
-// Analog node
+Data read_long      (int node,int index,U8 sub) {
+    Data buffer;
+    buffer.len = 0;
+    memset(buffer.buf,0,256);
+    read_uart(can0(),node,index,sub,&buffer);
+    return buffer;
+}
+
+Err write_long     (int node,int index,U8 sub, U8 *data) {
+    static Data buffer;
+    buffer.len = strlen((char*)data);
+    strncpy((char*)buffer.buf,(char*)data,256);
+    return write_uart(can0(),node,index,sub,&buffer);
+}
+/// Analog node
 
 /// Analog inputs
 U32 analog_get_in01(int node) {
@@ -329,38 +340,41 @@ U32 analog_get_temp02(int node) {
 U32 analog_get_temp03(int node) {
     return read_u32(can0(),node,0x6021,0x3);
 }
-
-char* analog_get_uart01(int node){
+Data analog_get_uart01(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    return read_uart(can0(),node,0x6000,0x1,&buffer);
+    read_uart(can0(),node,0x6000,0x1,&buffer);
+    return buffer;
 }
 Err analog_set_baut01(int node,U32 baut){
     return write_u32(can0(),node,0x6000,0x4,1,baut);
 }
-Err analog_set_uart01(int node,char *data){
+Err analog_set_uart01(int node,U8 *data){
     static Data buffer;
-    buffer.len = strlen(data);
-    strncpy(buffer.buf,data,256);
+    buffer.len = strlen((char *)data);
+    strncpy((char*)buffer.buf,(char*)data,256);
     return write_uart(can0(),node,0x6000,0x1,&buffer);
 }
-char* analog_get_uart02(int node){
+Data analog_get_uart02(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    return read_uart(can0(),node,0x6010,0x1,&buffer);
+    read_uart(can0(),node,0x6010,0x1,&buffer);
+    return buffer;
 }
-Err analog_set_uart02(int node,char *data){
+Err analog_set_uart02(int node,U8 *data){
     static Data buffer;
-    buffer.len = strlen(data);
-    strncpy(buffer.buf,data,256);
+    buffer.len = strlen((char*)data);
+    strncpy((char*)buffer.buf,(char*)data,256);
     return write_uart(can0(),node,0x6010,0x1,&buffer);
 }
 Err analog_set_baut02(int node,unsigned baut){
     return write_u32(can0(),node,0x6010,0x4,2,baut);
 }
 
+
+/// Digital node
 U32 digital_get_input(int node){
     return read_u32(can0(),node,0x6100,0x1);
 }
@@ -371,50 +385,48 @@ Err digital_set_output(int node,U32 value){
     return write_u32(can0(),node,0x6101,0x1,2,value);
 }
 
-char*    doppelmotor_get_uart01(int node){
+Data doppelmotor_get_uart01(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    return read_uart(can0(),node,0x6000,0x1,&buffer);
+    read_uart(can0(),node,0x6000,0x1,&buffer);
+    return buffer;
 }
-char*    doppelmotor_get_uart02(int node){
+Data doppelmotor_get_uart02(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    return read_uart(can0(),node,0x6010,0x1,&buffer);
+    read_uart(can0(),node,0x6010,0x1,&buffer);
+    return buffer;
 }
-
 Err doppelmotor_set_baut01(int node,unsigned baut){
     return write_u32(can0(),node,0x6000,0x4,1,baut);
 }
+
 Err doppelmotor_set_baut02(int node,unsigned baut){
     return write_u32(can0(),node,0x6010,0x4,1,baut);
 }
-
-Err doppelmotor_set_uart01(int node,char *data){
+Err doppelmotor_set_uart01(int node,U8 *data){
     static Data buffer;
-    buffer.len = strlen(data);
-    strncpy(buffer.buf,data,256);
+    buffer.len = strlen((char*)data);
+    strncpy((char*)buffer.buf,(char*)data,256);
     return write_uart(can0(),node,0x6000,0x1,&buffer);
 }
-Err doppelmotor_set_uart02(int node,char *data){
+Err doppelmotor_set_uart02(int node,U8 *data){
     static Data buffer;
-    buffer.len = strlen(data);
-    strncpy(buffer.buf,data,256);
+    buffer.len = strlen((char*)data);
+    strncpy((char*)buffer.buf,(char*)data,256);
     return write_uart(can0(),node,0x6010,0x1,&buffer);
 }
 
-// Analog extension count outputs
-U32 analogext_get_count(U8 out) {
-    return read_u32(can0(),0x1C,0x6411,0);
+
+U8 analogext_get_count() {
+    return (U8)read_u32(can0(),0x1c,0x6411,0);
 }
 
-// Analog extension read out
 U32 analogext_get_out(U8 out) {
-    return read_u32(can0(),0x1C,0x6411,out);
+    return read_u32(can0(),0x1c,0x6411,out);
 }
-
-// Analog extension change out
-Err analogext_set_out(U8 out ,U32 value){
-    return write_u32(can0(),0x1C,0x6411,out,2,value);
+Err analogext_set_out(U8 out, U32 value){
+    return write_u32(can0(),0x1c,0x6411,out,2,value);
 }

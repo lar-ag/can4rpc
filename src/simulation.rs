@@ -1,8 +1,6 @@
 /// Simulation hardware.
 
 use super::error::MioError;
-
-
 //pub async fn simulate_api_error( ) -> MioError {
    // MioError::Canbus{ msg:"Simulation error".to_owned()}
 //}
