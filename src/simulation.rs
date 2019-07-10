@@ -1,7 +1,7 @@
 /// Simulation hardware.
-use super::error::MioError;
-//pub async fn simulate_api_error( ) -> MioError {
-   // MioError::Canbus{ msg:"Simulation error".to_owned()}
+use super::error::CanError;
+//pub async fn simulate_api_error( ) -> CanError {
+   // CanError::Canbus{ msg:"Simulation error".to_owned()}
 //}
 // Analog value
 // Analog Node
@@ -49,49 +49,49 @@ use super::error::MioError;
 
 
 // Analog input
-// pub async fn analog_input16(num :u8) -> Result<u16 ,MioError>{
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn analog_input16(num :u8) -> Result<u16 ,CanError>{
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
 
-// pub async fn digital_input16(num: u8) -> Result<bool,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn digital_input16(num: u8) -> Result<bool,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
 
-// pub async fn analog_output16(num :u8) -> Result<u16 ,MioError>{
+// pub async fn analog_output16(num :u8) -> Result<u16 ,CanError>{
 
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
-// }
-
-// pub async fn digital_output16(num: u8) -> Result<u16,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
 
-// pub async fn set_analog_output16(num: u8, val : u16) -> Result<(),MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn digital_output16(num: u8) -> Result<u16,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
 
-// pub async fn set_digital_output16(num:u8,val : u16) -> Result<(),MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn set_analog_output16(num: u8, val : u16) -> Result<(),CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
 
-// pub async fn analog_uart01_read() -> Result<Vec<u8>,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
-// }
-// pub async fn analog_uart02_read() -> Result<Vec<u8>,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn set_digital_output16(num:u8,val : u16) -> Result<(),CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
 
-// pub async fn motor_uart01_read() -> Result<Vec<u8>,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn analog_uart01_read() -> Result<Vec<u8>,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
-// pub async fn motor_uart02_read() -> Result<Vec<u8>,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn analog_uart02_read() -> Result<Vec<u8>,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
-// pub async fn motor_uart03_read() -> Result<Vec<u8>,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+
+// pub async fn motor_uart01_read() -> Result<Vec<u8>,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
-// pub async fn motor_uart04_read() -> Result<Vec<u8>,MioError> {
-//     Err(MioError::Canbus{msg:"Simulation error".to_owned()})
+// pub async fn motor_uart02_read() -> Result<Vec<u8>,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
+// }
+// pub async fn motor_uart03_read() -> Result<Vec<u8>,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
+// }
+// pub async fn motor_uart04_read() -> Result<Vec<u8>,CanError> {
+//     Err(CanError::Canbus{msg:"Simulation error".to_owned()})
 // }
 
 

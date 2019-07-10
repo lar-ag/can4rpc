@@ -44,7 +44,7 @@ pub struct DigitalNode {
 
 
 
-pub async read_inputs16() -> Result<BitVec,MioError>
+pub async read_inputs16() -> Result<BitVec,CanError>
 
 
 pub struct DigitalInput {

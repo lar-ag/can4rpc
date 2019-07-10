@@ -7,17 +7,34 @@ use std::fmt::Write;
 
 use super::can;
 
+
 fn info(node:i32) -> String {
     let mut info = String::new();
     write!(&mut info, "Analog node {}",node).unwrap(); // uses fmt::Write::write_fmt
     info
 }
 
-fn get_input01(node : i32) -> u16{
+fn node_unsigned(node : i32,index: u16,sub: u8) -> <u32,CanError>{
     unsafe{
         can::analog_get_in01(node) as u16
     }
 }
+fn set_(node : i32,index: u16,sub: u8,value: u32) -> u32{
+    unsafe{
+        can::analog_get_in01(node) as u16
+    }
+}
+fn set_u32(node : i32,index: u16,sub: u8,value: u32) -> u32{
+    unsafe{
+        can::analog_get_in01(node) as u16
+    }
+}
+fn set_u16(node : i32,index: u16,sub: u8, value: u16) -> u32{
+    unsafe{
+        can::analog_get_in01(node) as u16
+    }
+}
+
 
 fn get_input02(node:i32) -> u16 {
     unsafe{
@@ -102,10 +119,6 @@ fn set_uart02(node:i32,mut value: Vec<u8>)    {
       can::analog_set_uart02(node,value.as_mut_ptr());
     }
 }
-
-/// #r`{"jsonrpc": "2.0", "method": "analog_get_in01","id": 1}`
-/// #r`{"jsonrpc": "2.0", "method": "analog_get_in02","id": 1}`
-
 
 
 #[rpc]

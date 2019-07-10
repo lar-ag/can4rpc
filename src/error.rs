@@ -10,12 +10,19 @@ use jsonrpc_core::Error as RpcError;
 // use mut_guard::*;
 
 #[derive(Fail, Debug)]
-pub enum MioError {
+pub enum CanError {
     #[fail(display = "io error - {}",err)]
     IOError {err: io::Error },
 
     #[fail(display = "rpc error - {}",err)]
     RpcError {err: RpcError },
+
+    #[fail(display = "device error - {}",msg)]
+    CanDev {msg: String},
+
+    #[fail(display = "data error - {}",msg)]
+    DataErr {msg: String},
+
 //    #[fail(display = "socketcan open error {}", err)]
     // CanOpenError { err: CANSocketOpenError },
 
@@ -29,25 +36,25 @@ pub enum MioError {
 }
 
 
-impl From<RpcError> for MioError {
-    fn from(kind: RpcError) -> MioError {
-        MioError::RpcError{err:kind}
+impl From<RpcError> for CanError {
+    fn from(kind: RpcError) -> CanError {
+        CanError::RpcError{err:kind}
     }
 }
-// impl From<CANSocketOpenError> for MioError {
-    // fn from(kind: CANSocketOpenError) -> MioError {
-        // MioError::CanOpenError{err:kind}
+// impl From<CANSocketOpenError> for CanError {
+    // fn from(kind: CANSocketOpenError) -> CanError {
+        // CanError::CanOpenError{err:kind}
     // }
 // }
-impl From<io::Error> for MioError {
-    fn from(kind:io::Error) -> MioError {
-        MioError::IOError{err: kind}
+impl From<io::Error> for CanError {
+    fn from(kind:io::Error) -> CanError {
+        CanError::IOError{err: kind}
     }
 }
 
-// impl From<DBusError> for MioError {
-    // fn from(kind:DBusError) -> MioError {
-        // MioError::DBusError{err:kind}
+// impl From<DBusError> for CanError {
+    // fn from(kind:DBusError) -> CanError {
+        // CanError::DBusError{err:kind}
     // }
 // }
 

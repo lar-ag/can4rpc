@@ -333,7 +333,9 @@ fn set_baut02(node:i32, baut: u32)  {
       can::doppelmotor_set_baut02(node,baut);
     }
 }
+
 pub struct DMNode;
+
 #[rpc]
 pub trait Motor {
     #[rpc(name = "motor_get_uart01")]

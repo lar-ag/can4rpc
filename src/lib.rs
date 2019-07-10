@@ -13,7 +13,7 @@ pub mod bindings;
 
 // pub mod api;
 // pub mod bindings;
-pub use self::error::MioError;
+pub use self::error::CanError;
 pub use self::bindings as can;
 pub use self::subscription::*;
 pub use self::analog::*;

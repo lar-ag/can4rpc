@@ -4,7 +4,7 @@ use std::{
 };
 
 
-use crate::error::MioError;
+use crate::error::CanError;
 use socketcan::*;
 use std::fmt;
 use std::io::{self};
@@ -79,7 +79,7 @@ impl CanIndex{
 }
 
 impl PCan {
-    pub fn open(iface: &'static str) -> Result<PCan,MioError> {
+    pub fn open(iface: &'static str) -> Result<PCan,CanError> {
         let socket = CANSocket::open(iface)?;
         let can = PCan {
             innen: Arc::new(Mutex::new(socket)),
@@ -154,7 +154,7 @@ impl Message {
     pub fn get_data (&self ) -> Vec<u8>{
         self.data.clone()
     }
-    pub fn new_message(id: u32, index: u16, sub: u8, data: Vec<u8>) -> Result<Message,MioError> {
+    pub fn new_message(id: u32, index: u16, sub: u8, data: Vec<u8>) -> Result<Message,CanError> {
         let node = ((id & 0x7F) | 0x600) as u32;
         let mut d = [0 as u8; 8];
         match data.len() {
@@ -208,20 +208,20 @@ impl Message {
         // cm . data [7] = (char)(value >> 24);
         Ok(Message { node, frame, data })
     }
-    pub fn new_u8 (id: u32, index: u16, sub: u8 ,value:u8) -> Result<Message,MioError> {
+    pub fn new_u8 (id: u32, index: u16, sub: u8 ,value:u8) -> Result<Message,CanError> {
         let data = vec![ value ];
         Self::new_message(id, index, sub, data)
     }
-    pub fn new_i16 (id: u32, index: u16, sub: u8 ,value:i16) -> Result<Message,MioError> {
+    pub fn new_i16 (id: u32, index: u16, sub: u8 ,value:i16) -> Result<Message,CanError> {
         let data = vec![ (value & 0xff)as u8, (value >> 8)  as u8 ];
         Self::new_message(id, index, sub, data)
     }
-    pub fn new_u16 (id: u32, index: u16, sub: u8 ,value:u16) -> Result<Message,MioError> {
+    pub fn new_u16 (id: u32, index: u16, sub: u8 ,value:u16) -> Result<Message,CanError> {
         let data = vec![ (value & 0xff)as u8, (value >> 8)  as u8 ];
         Self::new_message(id, index, sub, data)
     }
 
-    pub fn new_u32 (id: u32, index: u16, sub: u8 ,value:u32) -> Result<Message,MioError> {
+    pub fn new_u32 (id: u32, index: u16, sub: u8 ,value:u32) -> Result<Message,CanError> {
         let data = vec![
         (value & 0xff)as u8,
         (value >> 8)  as u8,
@@ -230,7 +230,7 @@ impl Message {
         ];
         Self::new_message(id, index, sub, data)
     }
-    pub fn new_i32 (id: u32, index: u16, sub: u8 ,value:i32) -> Result<Message,MioError> {
+    pub fn new_i32 (id: u32, index: u16, sub: u8 ,value:i32) -> Result<Message,CanError> {
         let data = vec![
         (value & 0xff)as u8,
         (value >> 8)  as u8,
@@ -241,7 +241,7 @@ impl Message {
     }
 
     /// New long message for examle string
-    pub fn new_long(id: u32, index: u16, sub: u8, data: Vec<u8>) -> Result<Message,MioError> {
+    pub fn new_long(id: u32, index: u16, sub: u8, data: Vec<u8>) -> Result<Message,CanError> {
         let node = ((id & 0x7F) | 0x600) as u32;
         let mut d = [0 as u8; 8];
         d[0] = 0x21;
@@ -336,7 +336,7 @@ impl Can {
     }
 
 
-    pub fn read(&self, node:u32,index:u16,sub: u8) -> Result<Vec<u8>,MioError> {
+    pub fn read(&self, node:u32,index:u16,sub: u8) -> Result<Vec<u8>,CanError> {
         let mut store = [0 as u8; 8];
         let node = ((node & 0b0111_1111) | 0b0011_0000_0000) as u32;
         store[0] = 0b0100_0000u8;
@@ -364,7 +364,7 @@ impl Can {
         }
         Ok(data)
     }
-    pub fn write (&self, node: u32,index:u16,sub: u8, data: &[u8]) -> Result< Vec<u8>, MioError> {
+    pub fn write (&self, node: u32,index:u16,sub: u8, data: &[u8]) -> Result< Vec<u8>, CanError> {
         let mut store = [0 as u8; 8];
         let node = ((node & 0b0111_1111) | 0b0011_0000_0000) as u32;
         // 0x19 0b0001_1001
@@ -474,7 +474,7 @@ impl Can {
 // }
 
 
-// pub async fn run_pcan_bus() -> Result<(),MioError> {
+// pub async fn run_pcan_bus() -> Result<(),CanError> {
 
     // Ok(())
 // }

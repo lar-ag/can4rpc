@@ -6,7 +6,7 @@ use std::{
 };
 use fs2::FileExt;
 
-// use super::error::MioError;
+// use super::error::CanError;
 // use once_cell::sync::OnceCell;
 
 // use serde_json::Value;
@@ -63,7 +63,7 @@ pub struct MioConfig {
 }
 
 // impl Mio {
-// pub fn can0() -> Result<CANSocket,MioError> {
+// pub fn can0() -> Result<CANSocket,CanError> {
 // INSTANCE.get().expect("logger is not initialized");
 // }
 // }
@@ -72,8 +72,8 @@ pub struct MioConfig {
 
 pub trait CanBus {
     //"com.lar.service.can", "com/lar/nodes/Analog1" com.lar.nodes.simple
-    // fn set_value(&mut self, node: &mut Node) -> Result<(), MioError>;
-    // fn get_value(&mut self, node: u32, index: u16, sub: u8) -> Result<Value, MioError>;
+    // fn set_value(&mut self, node: &mut Node) -> Result<(), CanError>;
+    // fn get_value(&mut self, node: u32, index: u16, sub: u8) -> Result<Value, CanError>;
 
     fn get_ain01(&mut self) -> u16;
     fn get_ain02(&mut self) -> u16;

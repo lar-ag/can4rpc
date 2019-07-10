@@ -1,4 +1,4 @@
-use super::error::MioError;
+use super::error::CanError;
 use dbus;
 use dbus::Error as DBusError;
 use dbus::{BusType, Connection, Message};
@@ -190,39 +190,39 @@ impl CanDBus {
 // 		Ok("version1".into())
 // 	}
 
-// 	fn read_index(&self,node:u32,index:u16, sub: u8) -> Result<String,MioError> {
+// 	fn read_index(&self,node:u32,index:u16, sub: u8) -> Result<String,CanError> {
 
 //     }
-//     fn write_index(&self,node:u32,index:u16, sub: u8,data:Vec<u8>) -> Result<(),MioError>;
+//     fn write_index(&self,node:u32,index:u16, sub: u8,data:Vec<u8>) -> Result<(),CanError>;
 
 //     #[rpc(name = "get_ain01")]
-//     fn get_ain01(&self) -> Result<u16, MioError>;
+//     fn get_ain01(&self) -> Result<u16, CanError>;
 //     #[rpc(name = "get_ain02")]
-//     fn get_ain02(&self) -> Result<u16, MioError>;
+//     fn get_ain02(&self) -> Result<u16, CanError>;
 //      #[rpc(name = "get_ain03")]
-//     fn get_ain03(&self) -> Result<u16, MioError>;
+//     fn get_ain03(&self) -> Result<u16, CanError>;
 //      #[rpc(name = "get_ain04")]
-//     fn get_ain04(&self) -> Result<u16, MioError>;
+//     fn get_ain04(&self) -> Result<u16, CanError>;
 //      #[rpc(name = "get_ain05")]
-//     fn get_ain05(&self) -> Result<u16, MioError>;
+//     fn get_ain05(&self) -> Result<u16, CanError>;
 //      #[rpc(name = "get_aout")]
-//     fn get_aout(&self, num: u8) -> Result<u16, MioError>;
+//     fn get_aout(&self, num: u8) -> Result<u16, CanError>;
 //     #[rpc(name = "set_aout")]
-//     fn set_aout(&self, num: u8, val: u16) -> FutureResult<(), MioError>;
+//     fn set_aout(&self, num: u8, val: u16) -> FutureResult<(), CanError>;
 //     #[rpc(name = "get_temp01")]
-//     fn get_temp01(&self,num:u8) -> Result<u16,MioError>;
+//     fn get_temp01(&self,num:u8) -> Result<u16,CanError>;
 //     #[rpc(name = "get_temp02")]
-//     fn get_temp01(&self,num:u8) -> Result<u16,MioError>;
+//     fn get_temp01(&self,num:u8) -> Result<u16,CanError>;
 //     #[rpc(name = "get_temp03")]
-//     fn get_temp01(&self,num:u8) -> Result<u16,MioError>;
+//     fn get_temp01(&self,num:u8) -> Result<u16,CanError>;
 
 
 //     #[rpc(name = "get_din")]
-//     fn get_din(&self,digit:u8) ->Result<bool,MioError>;
+//     fn get_din(&self,digit:u8) ->Result<bool,CanError>;
 //     #[rpc(name = "get_dout")]
-//     fn get_dout(&self,digit:u8) ->Result<bool,MioError>;
+//     fn get_dout(&self,digit:u8) ->Result<bool,CanError>;
 //      #[rpc(name = "set_dout")]
-//     fn set_dout(&self,digit:u8,value:bool) ->Result<(),MioError>;
+//     fn set_dout(&self,digit:u8,value:bool) ->Result<(),CanError>;
 
 //     #[rpc(name = "setup_uart")]
 //     fn setup_uart(&self,uart:u8,baut: u16)->Result<(),Error>;

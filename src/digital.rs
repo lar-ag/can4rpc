@@ -41,117 +41,118 @@ fn set_outputs(node:i32, value: u16) {
 
 #[rpc]
 pub trait Digital {
-    #[rpc(name = "digitalInfo")]
+    #[rpc(name = "digital_info")]
     fn digital_info(&self,node:i32) -> Result<String>;
-    #[rpc(name = "digitalGetInputs")]
+    #[rpc(name = "digital_get_inputs")]
     fn digital_get_inputs(&self, node:i32) -> Result<u16>;
-    #[rpc(name = "digitalGetOutputs")]
+    #[rpc(name = "digital_get_outputs")]
     fn digital_get_outputs(&self, node:i32) ->Result<u16>;
-    #[rpc(name = "digitalSetOutputs")]
+    #[rpc(name = "digital_set_outputs")]
     fn digital_set_outputs(&self,node:i32,value:u16) -> Result<()>;
-    #[rpc(name = "digitalGetIn00")]
+    #[rpc(name = "digital_get_in00")]
     fn digital_get_input00(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn01")]
+    #[rpc(name = "digital_get_in01")]
     fn digital_get_input01(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn02")]
+    #[rpc(name = "digital_get_in02")]
     fn digital_get_input02(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn03")]
+    #[rpc(name = "digital_get_in03")]
     fn digital_get_input03(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn04")]
+    #[rpc(name = "digital_get_in04")]
     fn digital_get_input04(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn05")]
+    #[rpc(name = "digital_get_in05")]
     fn digital_get_input05(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn06")]
+    #[rpc(name = "digital_get_in06")]
     fn digital_get_input06(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn07")]
+    #[rpc(name = "digital_get_in07")]
     fn digital_get_input07(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn08")]
+    #[rpc(name = "digital_get_in08")]
     fn digital_get_input08(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn09")]
+    #[rpc(name = "digital_get_in09")]
     fn digital_get_input09(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn10")]
+    #[rpc(name = "digital_get_in10")]
     fn digital_get_input10(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn11")]
+    #[rpc(name = "digital_get_in11")]
     fn digital_get_input11(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn12")]
+    #[rpc(name = "digital_get_in12")]
     fn digital_get_input12(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn13")]
+    #[rpc(name = "digital_get_in13")]
     fn digital_get_input13(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn14")]
+    #[rpc(name = "digital_get_in14")]
     fn digital_get_input14(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetIn15")]
+    #[rpc(name = "digital_get_in15")]
     fn digital_get_input15(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut00")]
+    #[rpc(name = "digital_get_out00")]
     fn digital_get_output00(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut01")]
+    #[rpc(name = "digital_get_out01")]
     fn digital_get_output01(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut02")]
+    #[rpc(name = "digital_get_out02")]
     fn digital_get_output02(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut03")]
+    #[rpc(name = "digital_get_out03")]
     fn digital_get_output03(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut04")]
+    #[rpc(name = "digital_get_out04")]
     fn digital_get_output04(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut05")]
+    #[rpc(name = "digital_get_out05")]
     fn digital_get_output05(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut06")]
+    #[rpc(name = "digital_get_out06")]
     fn digital_get_output06(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut07")]
+    #[rpc(name = "digital_get_out07")]
     fn digital_get_output07(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut08")]
+    #[rpc(name = "digital_get_out08")]
     fn digital_get_output08(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut09")]
+    #[rpc(name = "digital_get_out09")]
     fn digital_get_output09(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut10")]
+    #[rpc(name = "digital_get_out10")]
     fn digital_get_output10(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut11")]
+    #[rpc(name = "digital_get_out11")]
     fn digital_get_output11(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut12")]
+    #[rpc(name = "digital_get_out12")]
     fn digital_get_output12(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut13")]
+    #[rpc(name = "digital_get_out13")]
     fn digital_get_output13(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut14")]
+    #[rpc(name = "digital_get_out14")]
     fn digital_get_output14(&self, node:i32) ->Result<bool>;
-    #[rpc(name = "digitalGetOut15")]
+    #[rpc(name = "digital_get_out15")]
     fn digital_get_output15(&self, node:i32) ->Result<bool>;
 
-    #[rpc(name = "digitalSetOut00")]
+    #[rpc(name = "digital_set_out00")]
     fn digital_set_output00(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut01")]
+    #[rpc(name = "digital_set_out01")]
     fn digital_set_output01(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut02")]
+    #[rpc(name = "digital_set_out02")]
     fn digital_set_output02(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut03")]
+    #[rpc(name = "digital_set_out03")]
     fn digital_set_output03(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut04")]
+    #[rpc(name = "digital_set_out04")]
     fn digital_set_output04(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut05")]
+    #[rpc(name = "digital_set_out05")]
     fn digital_set_output05(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut06")]
+    #[rpc(name = "digital_set_out06")]
     fn digital_set_output06(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut07")]
+    #[rpc(name = "digital_set_out07")]
     fn digital_set_output07(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut08")]
+    #[rpc(name = "digital_set_out08")]
     fn digital_set_output08(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut09")]
+    #[rpc(name = "digital_set_out09")]
     fn digital_set_output09(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut10")]
+    #[rpc(name = "digital_set_out10")]
     fn digital_set_output10(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut11")]
+    #[rpc(name = "digital_set_out11")]
     fn digital_set_output11(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut12")]
+    #[rpc(name = "digital_set_out12")]
     fn digital_set_output12(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut13")]
+    #[rpc(name = "digital_set_out13")]
     fn digital_set_output13(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut14")]
+    #[rpc(name = "digital_set_out14")]
     fn digital_set_output14(&self, node:i32,value:bool) -> Result<()>;
-    #[rpc(name = "digitalSetOut15")]
+    #[rpc(name = "digital_set_out15")]
     fn digital_set_output15(&self, node:i32,value:bool) -> Result<()>;
 }
 
 // use log::info;
 
-/// #r`{"jsonrpc": "2.0", "method": "protocolVersion","id": 1}`
-/// #r`{"jsonrpc": "2.0", "method": "digitalGetIn00","id": 1}`
+/// #r`{"jsonrpc": "2.0", "method": "digital_info","id": 1}`
+/// #r`{"jsonrpc": "2.0", "method": "digital_get_in00","params":[18],"id": 1}`
+///
 // pub trait DigitalNode {
 
 // }
@@ -176,7 +177,7 @@ impl Digital for DigitalNode {
         Ok(set_outputs(node, value))
     }
     fn digital_get_input00(&self, node:i32) ->Result<bool> {
-        println!("server digital::digital_get_input00");
+        println!("Digital::digital_get_input00");
         let din = self.digital_get_inputs(node)?;
         let bv  = BitVec::<BigEndian, u16>::from_element(din);
         Ok(bv.get(0).unwrap())
