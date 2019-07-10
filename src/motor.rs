@@ -1,7 +1,12 @@
+use jsonrpc_core::futures::future::{Future};
+use jsonrpc_core::{Result};
+use jsonrpc_derive::rpc;
+// use jsonrpc_core_client::transports::local;
 // use futures::prelude::*;
 use serde_derive::{Deserialize,Serialize};
 // use std::os::raw::*;
 use super::can;
+// use super::CanMio;
 // use tide::{error::ResultExt, Context, EndpointResult};
 //
 /// Motor oder Doppelmotor
@@ -236,7 +241,7 @@ impl Uart {
 // AccessType=ro
 // DefaultValue=0
 // PDOMapping=0
-pub struct DoppelmotorNode{
+pub struct MotorNode{
     /// Index 6100 ,6101
     pub node: u32,
     pub motor1: Stepper,
@@ -248,7 +253,7 @@ pub struct DoppelmotorNode{
 }
 
 
-impl Default for DoppelmotorNode {
+impl Default for MotorNode {
     fn default() -> Self{
         let node = 0x12 as u32;
         let motor1 = Stepper::new(0x12,6100);
@@ -264,9 +269,9 @@ impl Default for DoppelmotorNode {
 }
 
 
-impl DoppelmotorNode {
-    pub fn new(node : u32) -> DoppelmotorNode {
-        DoppelmotorNode {
+impl MotorNode {
+    pub fn new(node : u32) -> MotorNode {
+        MotorNode {
            node: node,
            motor1: Stepper::new(node,6100),
            motor2: Stepper::new(node,6200),
@@ -278,7 +283,7 @@ impl DoppelmotorNode {
     }
 }
 
-pub fn get_uart01(node:i32) -> Vec<u8> {
+fn get_uart01(node:i32) -> Vec<u8> {
     unsafe{
         let data = can::doppelmotor_get_uart01(node);
         let len:usize = data.len as usize;
@@ -289,20 +294,24 @@ pub fn get_uart01(node:i32) -> Vec<u8> {
     //   let _t = can::doppelmotor_get_uart02(node);
     }
 }
-
-pub fn set_uart01(node:i32,mut value:Vec<u8>)  {
+fn set_uart01(node:i32,mut value:Vec<u8>)  {
     unsafe{
         can::doppelmotor_set_uart01(node,value.as_mut_ptr());
     }
 }
 
-pub fn setup_uart01(node:i32,baut:u32){
+fn setup_uart01(node:i32,baut:u32){
     unsafe{
         can::doppelmotor_set_baut01(node,baut);
     }
 }
 
-pub fn get_uart02(node:i32) -> Vec<u8> {
+fn set_baut01(node:i32, baut: u32)  {
+    unsafe{
+      can::doppelmotor_set_baut01(node,baut);
+    }
+}
+fn get_uart02(node:i32) -> Vec<u8> {
     unsafe{
         let data = can::doppelmotor_get_uart02(node);
         let len:usize = data.len as usize;
@@ -314,15 +323,55 @@ pub fn get_uart02(node:i32) -> Vec<u8> {
     }
     // vec![0 as u8]
 }
-
-pub fn set_uart02(node:i32,mut value: Vec<u8>) {
+fn set_uart02(node:i32,mut value: Vec<u8>) {
     unsafe{
         can::doppelmotor_set_uart02(node,value.as_mut_ptr());
     }
 }
-
-pub fn set_baut02(node:i32, baut: u32)  {
+fn set_baut02(node:i32, baut: u32)  {
     unsafe{
       can::doppelmotor_set_baut02(node,baut);
     }
 }
+pub struct DMNode;
+#[rpc]
+pub trait Motor {
+    #[rpc(name = "motor_get_uart01")]
+    fn motor_get_uart01(&self,node:i32)-> Result<Vec<u8>>;
+    #[rpc(name = "motor_get_uart01")]
+    fn motor_get_uart02(&self,node:i32)-> Result<Vec<u8>>;
+    #[rpc(name = "motor_set_uart01")]
+    fn motor_set_uart01(&self,node:i32,data:Vec<u8>)-> Result<()>;
+    #[rpc(name = "motor_set_uart02")]
+    fn motor_set_uart02(&self,node:i32,data:Vec<u8>)-> Result<()>;
+    #[rpc(name = "motor_set_baut01")]
+    fn motor_set_baut01(&self,node:i32,bautrate:u32)-> Result<()>;
+    #[rpc(name = "motor_set_baut02")]
+    fn motor_set_baut02(&self,node:i32,bautrate:u32)-> Result<()>;
+}
+
+impl Motor for DMNode {
+     fn motor_get_uart01(&self,node:i32)-> Result<Vec<u8>> {
+        Ok(get_uart01(node))
+    }
+    fn motor_get_uart02(&self,node:i32)-> Result<Vec<u8>> {
+        Ok(get_uart02(node))
+    }
+    fn motor_set_uart01(&self,node:i32,data:Vec<u8>)-> Result<()> {
+        set_uart01(node,data);
+        Ok(())
+    }
+    fn motor_set_uart02(&self,node:i32,data:Vec<u8>)-> Result<()> {
+       set_uart02(node,data);
+       Ok(())
+    }
+    fn motor_set_baut01(&self,node:i32,bautrate:u32)-> Result<()> {
+        set_baut01(node,bautrate);
+        Ok(())
+    }
+    fn motor_set_baut02(&self,node:i32,bautrate:u32)-> Result<()> {
+        set_baut02(node,bautrate);
+        Ok(())
+    }
+}
+//

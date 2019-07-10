@@ -33,6 +33,56 @@ fn bindgen_test_layout_Data() {
         concat!("Offset of field: ", stringify!(Data), "::", stringify!(len))
     );
 }
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct Frame {
+    pub type_: TYPE,
+    pub buf: [U8; 256usize],
+    pub len: U8,
+}
+#[test]
+fn bindgen_test_layout_Frame() {
+    assert_eq!(
+        ::std::mem::size_of::<Frame>(),
+        258usize,
+        concat!("Size of: ", stringify!(Frame))
+    );
+    assert_eq!(
+        ::std::mem::align_of::<Frame>(),
+        1usize,
+        concat!("Alignment of ", stringify!(Frame))
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<Frame>())).type_ as *const _ as usize },
+        0usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(Frame),
+            "::",
+            stringify!(type_)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<Frame>())).buf as *const _ as usize },
+        1usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(Frame),
+            "::",
+            stringify!(buf)
+        )
+    );
+    assert_eq!(
+        unsafe { &(*(::std::ptr::null::<Frame>())).len as *const _ as usize },
+        257usize,
+        concat!(
+            "Offset of field: ",
+            stringify!(Frame),
+            "::",
+            stringify!(len)
+        )
+    );
+}
 extern "C" {
     pub fn close_can0() -> Err;
 }
@@ -58,6 +108,14 @@ extern "C" {
         indec: ::std::os::raw::c_int,
         sub: U8,
         data: *mut U8,
+    ) -> Err;
+}
+extern "C" {
+    pub fn send_frame(
+        node: ::std::os::raw::c_int,
+        index: ::std::os::raw::c_int,
+        sub: U8,
+        frame: *mut Frame,
     ) -> Err;
 }
 extern "C" {

@@ -1,5 +1,4 @@
 /// Simulation hardware.
-
 use super::error::MioError;
 //pub async fn simulate_api_error( ) -> MioError {
    // MioError::Canbus{ msg:"Simulation error".to_owned()}
@@ -45,7 +44,6 @@ use super::error::MioError;
 // * 0x0007= 	1 - 32 bit unsigned integer
 // * 0x0008=	    1 - single precision floating point
 // * 0x0009= 	1 - visible string
-
 
 
 

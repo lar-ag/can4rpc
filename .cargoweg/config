@@ -1,0 +1,2 @@
+[target.i686-unknown-linux-gnu]
+linker = "gcc-multilib-i686-linux-gnu"

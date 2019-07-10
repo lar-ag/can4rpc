@@ -1,9 +1,9 @@
 [Unit]
-Description=rust server
+Description=canrpc restful server
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/tide-server
+ExecStart=/usr/local/bin/canrpc
 Type=exec
 Restart=on-failure
 
