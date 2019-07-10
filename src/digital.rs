@@ -150,8 +150,9 @@ pub trait Digital {
 
 // use log::info;
 
-/// #r`{"jsonrpc": "2.0", "method": "digital_info","id": 1}`
-/// #r`{"jsonrpc": "2.0", "method": "digital_get_in00","params":[18],"id": 1}`
+///Digital1 #r`{"jsonrpc": "2.0", "method": "digital_info","params":[24],"id": 1}`
+///Digital1 #r`{"jsonrpc": "2.0", "method": "digital_get_in00","params":[24],"id": 1}`
+///Digital2 #r`{"jsonrpc": "2.0", "method": "digital_get_in00","params":[25],"id": 1}`
 ///
 // pub trait DigitalNode {
 

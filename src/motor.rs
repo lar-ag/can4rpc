@@ -9,47 +9,7 @@ use super::can;
 // use super::CanMio;
 // use tide::{error::ResultExt, Context, EndpointResult};
 //
-/// Motor oder Doppelmotor
-/// 6X00:1 ParameterName=Stepper=0, Ruhrer =1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
-/// 6X00:2 ParameterName=Endschalter, geschlossen=1 ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=0 PDOMapping=0
-/// 6X00:3 ParameterName=Endschalter invertieren ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
-/// 6X01:1 ParameterName=Command / Status 0/1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
-/// 6X01:2 ParameterName=Command  go to Pos ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=0 PDOMapping=0
-/// 6X01:3 ParameterName=Position Old ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=0 PDOMapping=0
-/// 6X01:4 - ParameterName=Max Position ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=1800 PDOMapping=0
-/// 6X01:5 - ParameterName=Fahrparameter ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
-/// 6X01:6 - ParameterName=Fahrparameter ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
-///  Typed:
-///     0x001 - bool
-///     0x002 - u8
-///     0x003 - u16
-///     0x004 - i16
-///     0x006 - i16
-///  Addressen:
-///  `6100` - ParameterName=Stepper 1 / Ruhrer 1 ObjectType=0x8 SubNumber=4
-///       0 - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=3 PDOMapping=0
-///       1 - ParameterName=Stepper=0, Ruhrer =1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
-///       2 - ParameterName=Endschalter, geschlossen=1 ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=0 PDOMapping=0
-///       3 - ParameterName=Endschalter invertieren ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
-///       4 - ParameterName=Diagnose TCM249 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
-///  `6101` - ParameterName=Stepper 1 - Position ObjectType=0x8 SubNumber=5
-///       0 - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=5 PDOMapping=0
-///       1 - ParameterName=Command / Status 0/1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
-///       2 - ParameterName=Command  go to Pos ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=0 PDOMapping=0
-///       3 - ParameterName=Position Old ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=0 PDOMapping=0
-///       4 - ParameterName=Max Position ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=1800 PDOMapping=0
-///       5 - ParameterName=Fahrparameter ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
-///       6 - ParameterName=Stall guard flag ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
-///  `6102` - ParameterName=Ruhrer 1 ObjectType=0x8 SubNumber=3
-///       0 - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=2 PDOMapping=0
-///       1 - ParameterName=Aus=0, Ein=1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
-///       2 - ParameterName=Delay ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=-126 PDOMapping=0
-///  `6103` - ParameterName=Strom 1 ObjectType=0x8 SubNumber=5
-///      `0` - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=4 PDOMapping=0
-///      `1` - ParameterName=Stromsollwert / mA ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=600 PDOMapping=0
-///      `2` - ParameterName=Stromwert Digital ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=204 PDOMapping=0
-///      `3` - ParameterName=Haltestromsollwert / mA ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=150 PDOMapping=0
-///      `4` - ParameterName=Haltestromwert Digital ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=51 PDOMapping=0
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Stepper {
     node: u32,
@@ -333,11 +293,55 @@ fn set_baut02(node:i32, baut: u32)  {
       can::doppelmotor_set_baut02(node,baut);
     }
 }
+/// Motor oder Doppelmotor
+/// 6X00:1 ParameterName=Stepper=0, Ruhrer =1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
+/// 6X00:2 ParameterName=Endschalter, geschlossen=1 ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=0 PDOMapping=0
+/// 6X00:3 ParameterName=Endschalter invertieren ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
+/// 6X01:1 ParameterName=Command / Status 0/1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
+/// 6X01:2 ParameterName=Command  go to Pos ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=0 PDOMapping=0
+/// 6X01:3 ParameterName=Position Old ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=0 PDOMapping=0
+/// 6X01:4 - ParameterName=Max Position ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=1800 PDOMapping=0
+/// 6X01:5 - ParameterName=Fahrparameter ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
+/// 6X01:6 - ParameterName=Fahrparameter ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
+///  Typed:
+///     0x001 - bool
+///     0x002 - u8
+///     0x003 - u16
+///     0x004 - i16
+///     0x006 - i16
+///  Addressen:
+///  `6100` - ParameterName=Stepper 1 / Ruhrer 1 ObjectType=0x8 SubNumber=4
+///       0 - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=3 PDOMapping=0
+///       1 - ParameterName=Stepper=0, Ruhrer =1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
+///       2 - ParameterName=Endschalter, geschlossen=1 ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=0 PDOMapping=0
+///       3 - ParameterName=Endschalter invertieren ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
+///       4 - ParameterName=Diagnose TCM249 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
+///  `6101` - ParameterName=Stepper 1 - Position ObjectType=0x8 SubNumber=5
+///       0 - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=5 PDOMapping=0
+///       1 - ParameterName=Command / Status 0/1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=0 PDOMapping=0
+///       2 - ParameterName=Command  go to Pos ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=0 PDOMapping=0
+///       3 - ParameterName=Position Old ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=0 PDOMapping=0
+///       4 - ParameterName=Max Position ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=1800 PDOMapping=0
+///       5 - ParameterName=Fahrparameter ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
+///       6 - ParameterName=Stall guard flag ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
+///  `6102` - ParameterName=Ruhrer 1 ObjectType=0x8 SubNumber=3
+///       0 - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=2 PDOMapping=0
+///       1 - ParameterName=Aus=0, Ein=1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
+///       2 - ParameterName=Delay ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=-126 PDOMapping=0
+///  `6103` - ParameterName=Strom 1 ObjectType=0x8 SubNumber=5
+///      `0` - ParameterName=Nr of Subobjects ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=4 PDOMapping=0
+///      `1` - ParameterName=Stromsollwert / mA ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=600 PDOMapping=0
+///      `2` - ParameterName=Stromwert Digital ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=204 PDOMapping=0
+///      `3` - ParameterName=Haltestromsollwert / mA ObjectType=0x7 DataType=0x0006 AccessType=rw DefaultValue=150 PDOMapping=0
+///      `4` - ParameterName=Haltestromwert Digital ObjectType=0x7 DataType=0x0006 AccessType=ro DefaultValue=51 PDOMapping=0
+///
 
 pub struct DMNode;
 
 #[rpc]
 pub trait Motor {
+    #[rpc(name = "motor_info")]
+    fn motor_info(&self,node:i32)-> Result<String>;
     #[rpc(name = "motor_get_uart01")]
     fn motor_get_uart01(&self,node:i32)-> Result<Vec<u8>>;
     #[rpc(name = "motor_get_uart01")]
@@ -351,8 +355,14 @@ pub trait Motor {
     #[rpc(name = "motor_set_baut02")]
     fn motor_set_baut02(&self,node:i32,bautrate:u32)-> Result<()>;
 }
-
+///
+/// #r`{"jsonrpc": "2.0", "method": "digital_info","id": 1}`
+/// #r`{"jsonrpc": "2.0", "method": "motor_get_uart01","params":[18],"id": 1}`
+///
 impl Motor for DMNode {
+    fn motor_info(&self,node:i32)-> Result<String> {
+        Ok("motor.info".to_owned())
+    }
      fn motor_get_uart01(&self,node:i32)-> Result<Vec<u8>> {
         Ok(get_uart01(node))
     }
