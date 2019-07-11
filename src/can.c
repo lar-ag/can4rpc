@@ -116,8 +116,10 @@ static Err set_value(canmsg_t *rx, Frame *frame) {
 }
 
 // cmd = 0x20|19-(len<<2)
-Err tramsmit_frame (int fd, int node, int index, U8 sub, Frame *frame)
+Err canframe (int node, int index, U8 sub, Frame *frame)
 {
+    int fd = can0();
+    if(fd <=0) return fd;
     if(frame == NULL) {
         return 100;
     }
@@ -243,66 +245,6 @@ U32 read_unsigned(int node,int index,unsigned char sub) {
 Err write_unsigned(int node,int index,U8 sub,U8 len,U32 value) {
     return write_u32(can0(),node,index,sub,len,value);
 }
-static U8* read_uart(int fd, int node,int index,U8 sub,Data *buffer){
-    if (buffer == NULL) {
-        static Data local;
-        local.len =0;
-        memset(local.buf,0,256);
-        buffer = &local;
-    }
-    canmsg_t msg;
-    msg.data [0] = 0x40;
-    msg.flags = 0;
-	msg.cob   = 0;
-	msg.id    = (node & 0x7F) | 0x600;
-	msg.length   = 8;
-	msg.data[1] = (unsigned char) (index & 0xff);
-	msg.data[2] =  (unsigned char)(index >> 8);
-	msg.data[3] = (unsigned char) sub;
-    canmsg_t rx;
-	if (write (fd, &msg, 1))return NULL;
-    if(read (fd, &rx, 1)) return NULL;
-    read_string(fd,node,&rx,buffer);
-    return buffer->buf;
-}
-static Err write_uart(int fd,int node,int index,U8 sub,Data *buffer) {
-     if (buffer == NULL) {
-        static Data local;
-        local.len =0;
-        memset(local.buf,0,256);
-        buffer = &local;
-    }
-    canmsg_t       msg;
-    msg.data [0] = 0x21;
-    msg.flags    = 0;
-	msg.cob      = 0;
-	msg.id       = (node & 0x7F) | 0x600;
-	msg.length   = 8;
-	msg.data[1]  = (unsigned char) (index & 0xff);
-	msg.data[2]  = (unsigned char)(index >> 8);
-	msg.data[3]  = (unsigned char) sub;
-    msg.data[4]  = buffer->len;
-	if (write (fd, &msg, 1))return 3;
-    canmsg_t rx;
-    if(read (fd, &rx, 1)) return 2;
-    write_string(fd,node,buffer);
-    return 0;
-}
-
-Data read_long      (int node,int index,U8 sub) {
-    Data buffer;
-    buffer.len = 0;
-    memset(buffer.buf,0,256);
-    read_uart(can0(),node,index,sub,&buffer);
-    return buffer;
-}
-
-Err write_long     (int node,int index,U8 sub, U8 *data) {
-    static Data buffer;
-    buffer.len = strlen((char*)data);
-    strncpy((char*)buffer.buf,(char*)data,256);
-    return write_uart(can0(),node,index,sub,&buffer);
-}
 
 /// Analog node
 
@@ -343,7 +285,7 @@ Data analog_get_uart01(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    read_uart(can0(),node,0x6000,0x1,&buffer);
+    // read_uart(can0(),node,0x6000,0x1,&buffer);
     return buffer;
 }
 Err analog_set_baut01(int node,U32 baut){
@@ -353,20 +295,20 @@ Err analog_set_uart01(int node,U8 *data){
     static Data buffer;
     buffer.len = strlen((char *)data);
     strncpy((char*)buffer.buf,(char*)data,256);
-    return write_uart(can0(),node,0x6000,0x1,&buffer);
+    return 0;//write_uart(can0(),node,0x6000,0x1,&buffer);
 }
 Data analog_get_uart02(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    read_uart(can0(),node,0x6010,0x1,&buffer);
+    // read_uart(can0(),node,0x6010,0x1,&buffer);
     return buffer;
 }
 Err analog_set_uart02(int node,U8 *data){
-    static Data buffer;
-    buffer.len = strlen((char*)data);
-    strncpy((char*)buffer.buf,(char*)data,256);
-    return write_uart(can0(),node,0x6010,0x1,&buffer);
+    // static Data buffer;
+    // buffer.len = strlen((char*)data);
+    // strncpy((char*)buffer.buf,(char*)data,256);
+    return 0;//write_uart(can0(),node,0x6010,0x1,&buffer);
 }
 Err analog_set_baut02(int node,unsigned baut){
     return write_u32(can0(),node,0x6010,0x4,2,baut);
@@ -388,14 +330,14 @@ Data doppelmotor_get_uart01(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    read_uart(can0(),node,0x6000,0x1,&buffer);
+    // read_uart(can0(),node,0x6000,0x1,&buffer);
     return buffer;
 }
 Data doppelmotor_get_uart02(int node){
     static Data buffer;
     buffer.len = 0;
     memset(buffer.buf,0,256);
-    read_uart(can0(),node,0x6010,0x1,&buffer);
+    // read_uart(can0(),node,0x6010,0x1,&buffer);
     return buffer;
 }
 Err doppelmotor_set_baut01(int node,unsigned baut){
@@ -409,13 +351,13 @@ Err doppelmotor_set_uart01(int node,U8 *data){
     static Data buffer;
     buffer.len = strlen((char*)data);
     strncpy((char*)buffer.buf,(char*)data,256);
-    return write_uart(can0(),node,0x6000,0x1,&buffer);
+    return 1;//write_uart(can0(),node,0x6000,0x1,&buffer);
 }
 Err doppelmotor_set_uart02(int node,U8 *data){
     static Data buffer;
     buffer.len = strlen((char*)data);
     strncpy((char*)buffer.buf,(char*)data,256);
-    return write_uart(can0(),node,0x6010,0x1,&buffer);
+    return 1;//write_uart(can0(),node,0x6010,0x1,&buffer);
 }
 
 

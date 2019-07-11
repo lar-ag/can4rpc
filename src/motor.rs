@@ -293,6 +293,7 @@ fn set_baut02(node:i32, baut: u32)  {
       can::doppelmotor_set_baut02(node,baut);
     }
 }
+
 /// Motor oder Doppelmotor
 /// 6X00:1 ParameterName=Stepper=0, Ruhrer =1 ObjectType=0x7 DataType=0x0002 AccessType=rw DefaultValue=1 PDOMapping=0
 /// 6X00:2 ParameterName=Endschalter, geschlossen=1 ObjectType=0x7 DataType=0x0002 AccessType=ro DefaultValue=0 PDOMapping=0
@@ -338,6 +339,21 @@ fn set_baut02(node:i32, baut: u32)  {
 
 pub struct DMNode;
 
+pub fn motor_node_index(node:i32,index:u16) -> u16 {
+   if node < 200 {
+        index
+    } else {
+        index+100
+    }
+}
+pub fn motor_id(node:i32) -> i32 {
+    if node <125 {
+        node
+    } else {
+        node - 200
+    }
+}
+
 #[rpc]
 pub trait Motor {
     #[rpc(name = "motor_info")]
@@ -354,6 +370,33 @@ pub trait Motor {
     fn motor_set_baut01(&self,node:i32,bautrate:u32)-> Result<()>;
     #[rpc(name = "motor_set_baut02")]
     fn motor_set_baut02(&self,node:i32,bautrate:u32)-> Result<()>;
+    #[rpc(name = "motor_set_stepper")]
+    fn motor_set_stepper(&self,node:i32) -> Result<()>;
+   #[rpc(name = "motor_get_endschalter")]
+    fn motor_get_endschalter(&self,node:i32) -> Result<bool>;
+    #[rpc(name = "motor_invert_endschalter")]
+    fn motor_invert_endschalter(&self,node:i32) -> Result<()>;
+    #[rpc(name = "motor_set_command")]
+    fn motor_set_command(&self,node:i32,cmd:u16) -> Result<()>;
+    #[rpc(name = "motor_set_command")]
+    fn motor_set_position(&self,node:i32,pos:u16) -> Result<()>;
+    #[rpc(name = "motor_get_position")]
+    fn motor_get_position(&self,node:i32) -> Result<u16>;
+    #[rpc(name = "motor_set_max_position")]
+    fn motor_set_max_position(&self,node:i32,max:u32) -> Result<()>;
+    #[rpc(name = "motor_set_max_position")]
+    fn motor_set_velocity(&self,node:i32,velocity:u32) -> Result<()>;
+    #[rpc(name = "motor_set_stromsollwert")]
+    fn motor_set_stromsollwert(&self,node:i32,value:u32) -> Result<()>;
+    #[rpc(name = "motor_set_stirrer")]
+    fn motor_set_stirrer(&self,node:i32) -> Result<()>;
+    #[rpc(name = "motor_start_stirrer")]
+    fn motor_start_stirrer(&self,node:i32) -> Result<()>;
+    #[rpc(name = "motor_stop_stirrer")]
+    fn motor_stop_stirrer(&self,node:i32) -> Result<()>;
+    #[rpc(name = "motor_stop_stirrer")]
+    fn motor_set_delay(&self,node:i32,delay:u16) -> Result<()>;
+
 }
 ///
 /// #r`{"jsonrpc": "2.0", "method": "digital_info","id": 1}`
@@ -383,6 +426,55 @@ impl Motor for DMNode {
     }
     fn motor_set_baut02(&self,node:i32,bautrate:u32)-> Result<()> {
         set_baut02(node,bautrate);
+        Ok(())
+    }
+    fn motor_set_stepper(&self,node:i32) -> Result<()> {
+
+        Ok(())
+    }
+
+    fn motor_get_endschalter(&self,node:i32) -> Result<bool>{
+        Ok(true)
+    }
+    fn motor_invert_endschalter(&self,node:i32) -> Result<()>{
+
+        Ok(())
+    }
+    fn motor_set_command(&self,node:i32,cmd:u16) -> Result<()>{
+
+        Ok(())
+    }
+    fn motor_set_position(&self,node:i32,pos:u16) -> Result<()>{
+
+        Ok(())
+    }
+    fn motor_get_position(&self,node:i32) -> Result<u16>{
+
+        Ok(0)
+    }
+    fn motor_set_max_position(&self,node:i32,max:u32) -> Result<()>{
+
+        Ok(())
+    }
+    fn motor_set_velocity(&self,node:i32,velocity:u32) -> Result<()>{
+
+        Ok(())
+    }
+    fn motor_set_stromsollwert(&self,node:i32,value:u32) -> Result<()>{
+        Ok(())
+    }
+
+    fn motor_set_stirrer(&self,node:i32) -> Result<()>{
+
+        Ok(())
+    }
+    fn motor_start_stirrer(&self,node:i32) -> Result<()> {
+        Ok(())
+    }
+    fn motor_stop_stirrer(&self,node:i32) -> Result<()>{
+        Ok(())
+    }
+    fn motor_set_delay(&self,node:i32,delay:u16) -> Result<()>{
         Ok(())
     }
 }

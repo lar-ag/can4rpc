@@ -1,5 +1,5 @@
-// #![feature(async_await)]
-
+/// `can4rpc` can4linux c-api binding to rust and jsonrpc.
+///
 
 mod error;
 mod subscription;

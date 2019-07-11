@@ -18,9 +18,7 @@ typedef struct Frame{
 Err     close_can0();
 U32     read_unsigned  (int node,int index,U8 sub);
 Err     write_unsigned (int node,int index,U8 sub, TYPE type, U32 value);
-Data    read_long      (int node,int index,U8 sub);
-Err     write_long     (int node,int indec,U8 sub, U8 *data);
-Err     send_frame     (int node,int index,U8 sub, Frame *frame);
+Err     canframe         (int node,int index,U8 sub, Frame *frame);
 /// Analog node interface
 U32     analog_get_in01  (int node);
 U32     analog_get_in02  (int node);

@@ -1,0 +1,22 @@
+language: rust
+cache: cargo
+env:
+  - RUST_LOG=can4rpc=debug
+
+script:
+  - cargo build --release
+  - tar cvf ca4rpc.tar.xz out
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    local_dir: out
+    on:
+      branch: master
+  - provider: releases
+    api-token: $GITHUB_TOKEN
+    skip_cleanup: true
+    file: out.tar.xz
+    on:
+      tags: true

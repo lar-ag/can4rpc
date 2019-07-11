@@ -14,12 +14,12 @@ fn info(node:i32) -> String {
     info
 }
 
-fn node_unsigned(node : i32,index: u16,sub: u8) -> <u32,CanError>{
+fn node_read_value(node : i32,index: u16,sub: u8) -> <u32,CanError>{
     unsafe{
         can::analog_get_in01(node) as u16
     }
 }
-fn set_(node : i32,index: u16,sub: u8,value: u32) -> u32{
+fn node_write_value(node : i32,index: u16,sub: u8,value: u32) -> u32{
     unsafe{
         can::analog_get_in01(node) as u16
     }

@@ -1,9 +1,3 @@
-// #![feature(async_await)]
-// use jsonrpc_tcp_server::jsonrpc_core::IoHandler;
-// use jsonrpc_tcp_server::ServerBuilder;
-// use jsonrpc_tcp_server::jsonrpc_core::{IoHandler};
-// use jsonrpc_tcp_server::{AccessControlAllowOrigin, DomainsValidation, RestApi, ServerBuilder};
-
 use jsonrpc_core;
 use jsonrpc_tcp_server;
 use jsonrpc_core::IoHandler;
@@ -16,7 +10,7 @@ use std::net::*;
 #[derive(structopt::StructOpt)]
 struct Args {
     /// Port to listen on.
-    #[structopt(short = "p", long = "port", env = "PORT", default_value = "3030")]
+    #[structopt(short = "p", long = "port", env = "PORT", default_value = "9000")]
     port: u16,
     /// Address to listen on.
     #[structopt(short = "a", long = "address", default_value = "127.0.0.1")]

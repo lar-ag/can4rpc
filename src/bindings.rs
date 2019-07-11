@@ -100,18 +100,7 @@ extern "C" {
     ) -> Err;
 }
 extern "C" {
-    pub fn read_long(node: ::std::os::raw::c_int, index: ::std::os::raw::c_int, sub: U8) -> Data;
-}
-extern "C" {
-    pub fn write_long(
-        node: ::std::os::raw::c_int,
-        indec: ::std::os::raw::c_int,
-        sub: U8,
-        data: *mut U8,
-    ) -> Err;
-}
-extern "C" {
-    pub fn send_frame(
+    pub fn canframe(
         node: ::std::os::raw::c_int,
         index: ::std::os::raw::c_int,
         sub: U8,

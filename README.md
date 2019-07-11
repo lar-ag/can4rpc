@@ -63,6 +63,12 @@ cross-compile with `cargo`:
 [ui]: https://user-images.githubusercontent.com/383250/59148363-53188c80-8a08-11e9-9b29-9cac56809ee2.png "Automaat UI Example"
 
 
+## Quick Links
+
+* Work List: https://
+* API docs: https://lar-ag/github.io/canrpc/ra_ide_api/index.html
+* CI: https://travis-ci.org/rust-analyzer/rust-analyzer
+
 ## 🚀 PCan uber `socketcan`
 
 [socketcan] crate.
