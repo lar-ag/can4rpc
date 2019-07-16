@@ -9,12 +9,14 @@ mod analog;
 mod motor;
 mod digital;
 mod aouts;
+mod node;
 pub mod bindings;
 
 // pub mod api;
 // pub mod bindings;
 pub use self::error::CanError;
 pub use self::bindings as can;
+pub use self::node::*;
 pub use self::subscription::*;
 pub use self::analog::*;
 pub use self::digital::*;
